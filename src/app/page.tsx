@@ -62,66 +62,7 @@ function Demo() {
             Movies
           </Text>
         </div>
-        <div style={{ marginBottom: "20px" }} />
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <Select
-            rightSection={
-              <IconChevronDown style={{ width: "1rem", height: "1rem" }} />
-            }
-            label="Genres"
-            placeholder="Select genre"
-            data={[]}
-          />
-          {/*  <GenreSelect /> */}
-          <Select
-            rightSection={
-              <IconChevronDown style={{ width: "1rem", height: "1rem" }} />
-            }
-            label="Release year"
-            placeholder="Select release year"
-            data={[]}
-          />
-          <Select
-            style={{ width: "137px" }}
-            label="Ratings"
-            placeholder="From"
-            data={[]}
-          />
-          <Select
-            style={{ width: "137px", height: "0.6rem" }}
-            placeholder="To"
-            data={[]}
-          />
-          <div
-            style={{
-              marginTop: "20px",
-              fontWeight: 500,
-            }}
-          >
-            <UnstyledButton style={{ color: "#7B7C88" }}>
-              Reset filters
-            </UnstyledButton>
-          </div>
-        </div>
-        <div style={{ marginBottom: "10px" }} />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-          }}
-        >
-          <Select
-            style={{ width: "200px" }}
-            rightSection={
-              <IconChevronDown style={{ width: "1rem", height: "1rem" }} />
-            }
-            label="Sort by"
-            placeholder="Most popular"
-            data={["Most popular"]}
-          />
-        </div>
 
-        <div style={{ marginBottom: "40px" }} />
         <MovieGrid />
       </AppShell.Main>
     </AppShell>
