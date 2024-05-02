@@ -1,0 +1,15 @@
+.movieContent {
+    display: flex;
+    align-items: center;
+}
+
+.imageContainer {
+    flex: 0 0 auto;
+    margin-right: 20px;
+    width: 119px;
+    height: 170px;
+}
+
+.textContainer {
+    flex: 1;
+}
