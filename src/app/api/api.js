@@ -8,7 +8,7 @@ export async function fetchMovies(genre = "", year = "") {
   }
 
   if (year) {
-    url.searchParams.append("year", year);
+    url.searchParams.append("primary_release_year", year);
   }
 
   url.searchParams.append("api_key", apiKey);
@@ -40,5 +40,29 @@ export async function fetchMovieGenres(apiKey) {
     return genres;
   } catch (error) {
     throw new Error("Error fetching movie genres: " + error.message);
+  }
+}
+
+export async function fetchMoviesYears() {
+  const apiKey = "ca63987f2e3432d94a2064d1e1ff4cf8";
+  const baseUrl = "https://api.themoviedb.org/3/discover/movie";
+  const url = new URL(baseUrl);
+
+  url.searchParams.append("api_key", apiKey);
+  url.searchParams.append("page", 1);
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const years = Array.from(
+      new Set(
+        data.results.map((movie) => new Date(movie.release_date).getFullYear())
+      )
+    );
+
+    return years.map((year) => ({ value: String(year), label: String(year) }));
+  } catch (error) {
+    throw new Error("Error fetching movie release years: " + error.message);
   }
 }
