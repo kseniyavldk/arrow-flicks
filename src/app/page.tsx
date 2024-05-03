@@ -1,11 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { AppShell, Text, UnstyledButton, Select } from "@mantine/core";
-import { IconChevronDown } from "@tabler/icons-react";
+import { AppShell, Text } from "@mantine/core";
 import NavBar from "../components/NavBar.jsx";
 import MovieGrid from "../components/MovieGrid.jsx";
-//import GenreSelect from "../components/GenreSelect.jsx";
 
 type Movie = {
   id: number;
@@ -17,7 +15,7 @@ type Movie = {
 };
 
 function Demo() {
-  const [opened, { toggle }] = useDisclosure();
+  const [opened] = useDisclosure();
   const [movies, setMovies] = useState<Movie[]>([]);
 
   useEffect(() => {

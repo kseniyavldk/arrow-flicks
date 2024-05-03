@@ -22,12 +22,14 @@ export async function fetchMovies(genre = "", year = "") {
   }
 }
 
-export async function fetchMovieGenres() {
-  const apiKey = "ca63987f2e3432d94a2064d1e1ff4cf8";
+export async function fetchMovieGenres(apiKey) {
   const url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}`;
 
   try {
     const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
     const data = await response.json();
 
     const genres = data.genres.map((genre) => ({
