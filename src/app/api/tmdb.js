@@ -5,9 +5,18 @@ export function useMovies(genre = "", year = "") {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    fetchMovies(genre, year)
-      .then((data) => setMovies(data.results))
-      .catch((error) => console.error("Error fetching movies:", error));
+    const fetchMoviesByGenreAndYear = async () => {
+      try {
+        const moviesData = await fetchMovies(genre, year);
+        setMovies(moviesData.results);
+      } catch (error) {
+        console.error("Error fetching movies:", error);
+      }
+    };
+
+    fetchMoviesByGenreAndYear();
+
+    return () => {};
   }, [genre, year]);
 
   return movies;

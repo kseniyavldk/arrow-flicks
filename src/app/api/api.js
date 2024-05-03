@@ -1,4 +1,9 @@
-export async function fetchMovies(genre = "", year = "") {
+export async function fetchMovies(
+  genre = "",
+  year = "",
+  ratingFrom = "",
+  ratingTo = ""
+) {
   const apiKey = "ca63987f2e3432d94a2064d1e1ff4cf8";
   const baseUrl = "https://api.themoviedb.org/3/discover/movie";
   const url = new URL(baseUrl);
@@ -9,6 +14,14 @@ export async function fetchMovies(genre = "", year = "") {
 
   if (year) {
     url.searchParams.append("primary_release_year", year);
+  }
+
+  if (ratingFrom !== undefined && ratingFrom !== "") {
+    url.searchParams.append("vote_average.gte", ratingFrom);
+  }
+
+  if (ratingTo !== undefined && ratingTo !== "") {
+    url.searchParams.append("vote_average.lte", ratingTo);
   }
 
   url.searchParams.append("api_key", apiKey);
@@ -64,5 +77,26 @@ export async function fetchMoviesYears() {
     return years.map((year) => ({ value: String(year), label: String(year) }));
   } catch (error) {
     throw new Error("Error fetching movie release years: " + error.message);
+  }
+}
+
+export async function fetchMovieRatings(apiKey) {
+  const url = `https://api.themoviedb.org/3/movie/ratings?api_key=${apiKey}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+
+    const ratings = data.map((rating) => ({
+      value: String(rating.value),
+      label: String(rating.label),
+    }));
+
+    return ratings;
+  } catch (error) {
+    throw new Error("Error fetching movie ratings: " + error.message);
   }
 }

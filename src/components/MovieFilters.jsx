@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Select, UnstyledButton } from "@mantine/core";
-import { fetchMovieGenres, fetchMoviesYears } from "../app/api/api.js";
+import {
+  fetchMovieGenres,
+  fetchMoviesYears,
+  fetchMovieRatings,
+} from "../app/api/api.js";
 import { IconChevronDown } from "@tabler/icons-react";
 
-function MovieFilters({ onGenreChange, onYearChange }) {
+function MovieFilters({ onGenreChange, onYearChange, onRatingChange }) {
   const [genres, setGenres] = useState([]);
   const [releaseYears, setReleaseYears] = useState([]);
+  const [ratings, setRatings] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
+  const [ratingFrom, setRatingFrom] = useState("");
+  const [ratingTo, setRatingTo] = useState("");
+
+  const apiKey = "ca63987f2e3432d94a2064d1e1ff4cf8";
 
   useEffect(() => {
-    const apiKey = "ca63987f2e3432d94a2064d1e1ff4cf8";
-
     fetchMovieGenres(apiKey)
       .then((data) => setGenres(data))
       .catch((error) => console.error("Error fetching movie genres:", error));
@@ -21,6 +28,10 @@ function MovieFilters({ onGenreChange, onYearChange }) {
       .catch((error) =>
         console.error("Error fetching movie release years:", error)
       );
+
+    fetchMovieRatings(apiKey)
+      .then((ratings) => setRatings(ratings))
+      .catch((error) => console.error("Error fetching movie ratings:", error));
   }, []);
 
   const handleGenreChange = (value) => {
@@ -31,6 +42,26 @@ function MovieFilters({ onGenreChange, onYearChange }) {
   const handleYearChange = (value) => {
     setSelectedYear(value);
     onYearChange(value);
+  };
+
+  const handleRatingFromChange = (value) => {
+    setRatingFrom(value);
+    onRatingChange(value, ratingTo);
+  };
+
+  const handleRatingToChange = (value) => {
+    setRatingTo(value);
+    onRatingChange(ratingFrom, value);
+  };
+
+  const resetFilters = () => {
+    setSelectedGenre("");
+    setSelectedYear("");
+    setRatingFrom("");
+    setRatingTo("");
+    onGenreChange("");
+    onYearChange("");
+    onRatingChange("", "");
   };
 
   return (
@@ -57,22 +88,22 @@ function MovieFilters({ onGenreChange, onYearChange }) {
       />
       <Select
         style={{ width: "137px" }}
-        label="Ratings"
+        label="Rating From"
         placeholder="From"
-        data={[]}
+        data={ratings}
+        value={ratingFrom}
+        onChange={handleRatingFromChange}
       />
       <Select
-        style={{ width: "137px", height: "0.6rem" }}
+        style={{ width: "137px" }}
+        label="Rating To"
         placeholder="To"
-        data={[]}
+        data={ratings}
+        value={ratingTo}
+        onChange={handleRatingToChange}
       />
-      <div
-        style={{
-          marginTop: "20px",
-          fontWeight: 500,
-        }}
-      >
-        <UnstyledButton style={{ color: "#7B7C88" }}>
+      <div style={{ marginTop: "20px", fontWeight: 500 }}>
+        <UnstyledButton style={{ color: "#7B7C88" }} onClick={resetFilters}>
           Reset filters
         </UnstyledButton>
       </div>

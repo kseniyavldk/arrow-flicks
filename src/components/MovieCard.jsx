@@ -1,16 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Image, Text, Group } from "@mantine/core";
 import styles from "./MovieCard.module.css";
+import { fetchMovieGenres } from "../app/api/api.js";
 
 function MovieCard({ movie }) {
   const [genres, setGenres] = useState([]);
 
+  useEffect(() => {
+    async function fetchGenres() {
+      try {
+        const genresData = await fetchMovieGenres(
+          "ca63987f2e3432d94a2064d1e1ff4cf8"
+        );
+        setGenres(genresData);
+      } catch (error) {
+        console.error("Error fetching movie genres:", error);
+      }
+    }
+
+    fetchGenres();
+  }, []);
+
   const getGenreNames = (movie) => {
-    if (!genres || !movie.genre_ids) return "";
+    if (!genres.length) return "";
+
     const genreNames = movie.genre_ids.map((id) => {
-      const genre = genres.find((genre) => genre.id === id);
+      const genre = genres.find((genre) => genre.id === String(id));
       return genre ? genre.name : "";
     });
+
     return genreNames.join(", ");
   };
 
@@ -62,8 +80,8 @@ function MovieCard({ movie }) {
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" />
             </svg>
-            <Text size="lg" style={{ color: "#7B7C88" }}>
-              {movie.vote_average}
+            <Text size="lg" fw={700} style={{ color: "#000000" }}>
+              {movie.vote_average.toFixed(1)}
             </Text>
             <Text size="md" style={{ color: "#7B7C88" }}>
               {movie.vote_count}
@@ -71,7 +89,15 @@ function MovieCard({ movie }) {
           </Group>
           <Group>
             <Text size="md" style={{ color: "#7B7C88" }}>
-              Genres: {getGenreNames(movie)}
+              Genres{" "}
+              <span
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                }}
+              >
+                {getGenreNames(movie)}
+              </span>
             </Text>
           </Group>
         </div>
