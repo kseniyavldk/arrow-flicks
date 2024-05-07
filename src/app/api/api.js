@@ -100,3 +100,23 @@ export async function fetchMovieRatings(apiKey) {
     throw new Error("Error fetching movie ratings: " + error.message);
   }
 }
+
+export async function fetchMovieDetails(movieId, token) {
+  const url = `https://api.themoviedb.org/3/movie/${movieId}`;
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch movie details: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(`Error fetching movie details: ${error.message}`);
+  }
+}

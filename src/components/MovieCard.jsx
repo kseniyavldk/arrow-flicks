@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, Image, Text, Group } from "@mantine/core";
 import styles from "./MovieCard.module.css";
 import { fetchMovieGenres } from "../app/api/api.js";
+import Link from "next/link";
 
 function MovieCard({ movie }) {
   const [genres, setGenres] = useState([]);
@@ -51,17 +52,25 @@ function MovieCard({ movie }) {
         </div>
         <div className={styles.textContainer}>
           <Group direction="column" gap="xs">
-            <Text
-              size="lg"
-              weight={700}
-              style={{
-                fontSize: "20px",
-                fontWeight: 600,
-                color: "#9854F6",
-              }}
+            <Link
+              href={`movie/${movie.id}`}
+              style={{ textDecoration: "none" }}
+              passHref
             >
-              {movie.title}
-            </Text>
+              <Text
+                as="a"
+                size="lg"
+                weight={700}
+                style={{
+                  fontSize: "20px",
+                  fontWeight: 600,
+                  color: "#9854F6",
+                  cursor: "pointer",
+                }}
+              >
+                {movie.title}
+              </Text>
+            </Link>
           </Group>
           <Group>
             <Text size="md" style={{ color: "#7B7C88" }}>

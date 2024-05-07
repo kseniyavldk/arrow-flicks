@@ -4,6 +4,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { AppShell, Text } from "@mantine/core";
 import NavBar from "../components/NavBar.jsx";
 import MovieGrid from "../components/MovieGrid.jsx";
+import RatedMovies from "../components/RatedMovies.jsx";
 
 type Movie = {
   id: number;
@@ -17,6 +18,7 @@ type Movie = {
 function Demo() {
   const [opened] = useDisclosure();
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [showRatedMovies, setShowRatedMovies] = useState(false);
 
   useEffect(() => {
     const options = {
@@ -45,23 +47,10 @@ function Demo() {
       }}
       padding="md"
     >
-      <NavBar opened={undefined} />
+      <NavBar opened={undefined} setShowRatedMovies={setShowRatedMovies} />
 
       <AppShell.Main style={{ marginLeft: "60px", marginRight: "60px" }}>
-        <div>
-          <Text
-            style={{
-              fontSize: "32px",
-              fontWeight: 700,
-              lineHeight: "44.8px",
-              textAlign: "left",
-            }}
-          >
-            Movies
-          </Text>
-        </div>
-
-        <MovieGrid />
+        {showRatedMovies ? <RatedMovies /> : <MovieGrid />}
       </AppShell.Main>
     </AppShell>
   );

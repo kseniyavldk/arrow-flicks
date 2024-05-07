@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
 import { AppShell, SegmentedControl } from "@mantine/core";
+import { Link } from "react-router-dom";
 
-const Navbar = ({ opened }) => {
+const Navbar = ({ opened, setShowRatedMovies }) => {
   return (
     <AppShell.Navbar p="md" style={{ backgroundColor: "#F2EBF9" }}>
       <img src="logo.png" alt="Logo" style={{ width: 200 }} />
@@ -20,6 +21,13 @@ const Navbar = ({ opened }) => {
           fontSize: "50px",
         }}
         data={["Movies", "Rated movies"]}
+        onChange={(value) => {
+          if (value === "Rated movies") {
+            setShowRatedMovies(true);
+          } else {
+            setShowRatedMovies(false);
+          }
+        }}
       />
     </AppShell.Navbar>
   );
