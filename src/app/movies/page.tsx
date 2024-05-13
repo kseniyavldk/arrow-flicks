@@ -1,26 +1,28 @@
+"use client";
 import React, { useState } from "react";
 import { SimpleGrid } from "@mantine/core";
 import MovieFilters from "../components/MovieFilters.jsx";
 import MovieCard from "../components/MovieCard.jsx";
 import MovieSort from "../components/MovieSort.jsx";
-import { useMovies } from "/src/app/api/tmdb.js";
+import { useMovies } from "@/app/api/tmdb.js";
+import { Movie } from "@/app/types";
 
 function MovieGrid() {
   const [genre, setGenre] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
   const [ratingFrom, setRatingFrom] = useState("");
   const [ratingTo, setRatingTo] = useState("");
-  const movies = useMovies(genre, selectedYear, ratingFrom, ratingTo);
+  const movies: Movie[] = useMovies(genre, selectedYear);
 
-  const handleGenreChange = (value) => {
+  const handleGenreChange = (value: string) => {
     setGenre(value);
   };
 
-  const handleYearChange = (value) => {
+  const handleYearChange = (value: string) => {
     setSelectedYear(value);
   };
 
-  const handleRatingChange = (from, to) => {
+  const handleRatingChange = (from: string, to: string) => {
     setRatingFrom(from);
     setRatingTo(to);
   };

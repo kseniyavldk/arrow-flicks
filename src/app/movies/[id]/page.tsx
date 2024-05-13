@@ -3,22 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Image, Text, Group } from "@mantine/core";
 import { fetchMovieDetails, fetchMovieGenres } from "@/app/api/api.js";
 import { token } from "@/app/config.js";
-
-interface Movie {
-  poster_path: string;
-  title: string;
-  release_date: string;
-  vote_average: number;
-  runtime: number;
-  budget: number;
-  revenue: number;
-  genre_ids: number[];
-}
-
-interface Genre {
-  id: string;
-  name: string;
-}
+import { Movie, Genre } from "@/app/types";
 
 function MovieDetails({ params }: { params: { id: string } }) {
   const [movieDetails, setMovieDetails] = useState<Movie | null>(null);

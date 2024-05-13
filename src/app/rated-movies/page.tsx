@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 import { Button, Text } from "@mantine/core";
 import Image from "next/image";
 

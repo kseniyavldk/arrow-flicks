@@ -1,5 +1,5 @@
 import "@mantine/core/styles.css";
-
+import { RootLayout } from "@/app/layout/root-layout";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 
 export const metadata = {
@@ -7,7 +7,7 @@ export const metadata = {
   description: "I have followed setup instructions carefully",
 };
 
-export default function RootLayout({
+export default function MyRootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -18,7 +18,9 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider>{children}</MantineProvider>
+        <MantineProvider>
+          <RootLayout>{children}</RootLayout>
+        </MantineProvider>
       </body>
     </html>
   );
