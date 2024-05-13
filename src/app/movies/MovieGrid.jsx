@@ -1,10 +1,9 @@
-"use client";
 import React, { useState } from "react";
 import { SimpleGrid } from "@mantine/core";
-import MovieFilters from "../components/MovieFilters";
-import MovieCard from "./MovieCard";
-import MovieSort from "./MovieSort";
-import { useMovies } from "../app/api/tmdb.js";
+import MovieFilters from "../components/MovieFilters.jsx";
+import MovieCard from "../components/MovieCard.jsx";
+import MovieSort from "../components/MovieSort.jsx";
+import { useMovies } from "/src/app/api/tmdb.js";
 
 function MovieGrid() {
   const [genre, setGenre] = useState("");

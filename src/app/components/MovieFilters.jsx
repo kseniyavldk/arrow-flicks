@@ -4,8 +4,9 @@ import {
   fetchMovieGenres,
   fetchMoviesYears,
   fetchMovieRatings,
-} from "../app/api/api.js";
+} from "/src/app/api/api.js";
 import { IconChevronDown } from "@tabler/icons-react";
+import { apiKey } from "/src/app/config.js";
 
 function MovieFilters({ onGenreChange, onYearChange, onRatingChange }) {
   const [genres, setGenres] = useState([]);
@@ -15,8 +16,6 @@ function MovieFilters({ onGenreChange, onYearChange, onRatingChange }) {
   const [selectedYear, setSelectedYear] = useState("");
   const [ratingFrom, setRatingFrom] = useState("");
   const [ratingTo, setRatingTo] = useState("");
-
-  const apiKey = "ca63987f2e3432d94a2064d1e1ff4cf8";
 
   useEffect(() => {
     fetchMovieGenres(apiKey)
@@ -99,21 +98,24 @@ function MovieFilters({ onGenreChange, onYearChange, onRatingChange }) {
           value={selectedYear}
           onChange={handleYearChange}
         />
+
         <Select
           style={{ width: "137px" }}
           label="Rating From"
           placeholder="From"
-          data={ratings}
+          data={ratings.map((rating) => ({ value: rating, label: rating }))}
           value={ratingFrom}
-          onChange={handleRatingFromChange}
+          onChange={(event) =>
+            handleRatingFromChange(event.currentTarget.value)
+          }
         />
         <Select
           style={{ width: "137px" }}
           label="Rating To"
           placeholder="To"
-          data={ratings}
+          data={ratings.map((rating) => ({ value: rating, label: rating }))}
           value={ratingTo}
-          onChange={handleRatingToChange}
+          onChange={(event) => handleRatingToChange(event.currentTarget.value)}
         />
 
         <div style={{ marginTop: "20px", fontWeight: 500 }}>

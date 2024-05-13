@@ -27,7 +27,7 @@ const RatedMovies = () => {
             fontWeight: 600,
           }}
         >
-          You haven't rated any films yet
+          You haven&apos;t rated any films yet
         </Text>
         <Button
           style={{

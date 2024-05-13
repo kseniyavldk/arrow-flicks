@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, Image, Text, Group } from "@mantine/core";
 import styles from "./MovieCard.module.css";
-import { fetchMovieGenres } from "../app/api/api.js";
+import { fetchMovieGenres } from "/src/app/api/api.js";
 import Link from "next/link";
 
 function MovieCard({ movie }) {
@@ -10,9 +10,7 @@ function MovieCard({ movie }) {
   useEffect(() => {
     async function fetchGenres() {
       try {
-        const genresData = await fetchMovieGenres(
-          "ca63987f2e3432d94a2064d1e1ff4cf8"
-        );
+        const genresData = await fetchMovieGenres();
         setGenres(genresData);
       } catch (error) {
         console.error("Error fetching movie genres:", error);
@@ -53,7 +51,7 @@ function MovieCard({ movie }) {
         <div className={styles.textContainer}>
           <Group direction="column" gap="xs">
             <Link
-              href={`movie/${movie.id}`}
+              href={`/movies/${movie.id}`}
               style={{ textDecoration: "none" }}
               passHref
             >

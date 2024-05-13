@@ -1,0 +1,45 @@
+.navbar {
+    background-color: #f2ebf9;
+}
+
+.logo {
+    width: 200px;
+}
+
+.buttonWrapper {
+    min-height: 50px;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    border: none;
+    transition-duration: 500ms;
+    width: 100%;
+}
+
+.button {
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+
+.button:hover {
+    color: inherit;
+    /* Set the color to inherit to keep the text color same as normal */
+}
+
+.active {
+    background-color: #e5d5fa;
+    color: #9854f6;
+    font-weight: bold;
+}
+
+.inactive {
+    background-color: transparent;
+    color: black;
+}

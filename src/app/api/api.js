@@ -1,12 +1,14 @@
+import { apiKey, token } from "../config";
+
+const baseUrl = "https://api.themoviedb.org/3";
+
 export async function fetchMovies(
   genre = "",
   year = "",
   ratingFrom = "",
   ratingTo = ""
 ) {
-  const apiKey = "ca63987f2e3432d94a2064d1e1ff4cf8";
-  const baseUrl = "https://api.themoviedb.org/3/discover/movie";
-  const url = new URL(baseUrl);
+  const url = new URL(`${baseUrl}/discover/movie`);
 
   if (genre) {
     url.searchParams.append("with_genres", genre);
@@ -35,8 +37,8 @@ export async function fetchMovies(
   }
 }
 
-export async function fetchMovieGenres(apiKey) {
-  const url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}`;
+export async function fetchMovieGenres() {
+  const url = `${baseUrl}/genre/movie/list?api_key=${apiKey}`;
 
   try {
     const response = await fetch(url);
@@ -57,10 +59,7 @@ export async function fetchMovieGenres(apiKey) {
 }
 
 export async function fetchMoviesYears() {
-  const apiKey = "ca63987f2e3432d94a2064d1e1ff4cf8";
-  const baseUrl = "https://api.themoviedb.org/3/discover/movie";
-  const url = new URL(baseUrl);
-
+  const url = new URL(`${baseUrl}/discover/movie`);
   url.searchParams.append("api_key", apiKey);
   url.searchParams.append("page", 1);
 
@@ -81,7 +80,7 @@ export async function fetchMoviesYears() {
 }
 
 export async function fetchMovieRatings(apiKey) {
-  const url = `https://api.themoviedb.org/3/movie/ratings?api_key=${apiKey}`;
+  const url = `${baseUrl}/movie/ratings?api_key=${apiKey}`;
 
   try {
     const response = await fetch(url);
@@ -101,8 +100,8 @@ export async function fetchMovieRatings(apiKey) {
   }
 }
 
-export async function fetchMovieDetails(movieId, token) {
-  const url = `https://api.themoviedb.org/3/movie/${movieId}`;
+export async function fetchMovieDetails(movieId) {
+  const url = `${baseUrl}/movie/${movieId}`;
   const options = {
     headers: {
       Authorization: `Bearer ${token}`,
