@@ -3,7 +3,7 @@ import { RootLayout } from "@/app/layout/root-layout";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 
 export const metadata = {
-  title: "My Mantine app",
+  title: "ArrowFlicks",
   description: "I have followed setup instructions carefully",
 };
 

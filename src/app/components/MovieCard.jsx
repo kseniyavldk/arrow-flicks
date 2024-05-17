@@ -32,14 +32,7 @@ function MovieCard({ movie }) {
   };
 
   return (
-    <Card
-      key={movie.id}
-      shadow="sm"
-      padding="lg"
-      radius="md"
-      withBorder
-      className={styles.movieCard}
-    >
+    <Card key={movie.id} shadow="sm" padding="lg" radius="md" withBorder>
       <div className={styles.movieContent}>
         <div className={styles.imageContainer}>
           <Image

@@ -1,0 +1,42 @@
+.cardBackground {
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 700px;
+    max-height: 200px;
+    margin: 0 auto;
+}
+
+.starContainer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+}
+
+.movieContent {
+    display: flex;
+    align-items: center;
+}
+
+.textContainer {
+    margin-left: 20px;
+}
+
+.columnContainer {
+    margin-top: 40px;
+    align-items: flex-start;
+}
+
+.columnPair {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.textOpposite {
+    margin: 0;
+    color: #7B7C88;
+    text-align: left;
+}
