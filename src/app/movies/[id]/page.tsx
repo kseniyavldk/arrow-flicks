@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Image, Text, Group, Card } from "@mantine/core";
+import { Image, Text, Group, Card, Loader } from "@mantine/core";
 import { fetchMovieDetails, fetchMovieGenres } from "@/app/api/api.js";
 import { token } from "@/app/config.js";
 import { Movie, Genre } from "@/app/types";
@@ -28,17 +28,6 @@ function MovieDetails({ params }: { params: { id: string } }) {
     fetchData();
   }, [params.id]);
 
-  const getGenreNames = (movie: Movie) => {
-    if (!genres.length || !movie || !movie.genre_ids) return "";
-
-    const genreNames = movie.genre_ids.map((id) => {
-      const genre = genres.find((genre) => genre.id === String(id));
-      return genre ? genre.name : "";
-    });
-
-    return genreNames.join(", ");
-  };
-
   const formatRuntime = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
@@ -56,14 +45,18 @@ function MovieDetails({ params }: { params: { id: string } }) {
   };
 
   if (!movieDetails) {
-    return <div>Loading...</div>;
+    return (
+      <div className={styles.loaderContainer}>
+        <Loader color="grape" />
+      </div>
+    );
   }
 
   return (
     <div className={styles.cardBackground}>
       <Card shadow="sm" padding="lg" radius="md">
         <div className={styles.starContainer}>
-          <Image src="/images/star.svg" />
+          <Image src="/images/star.svg" alt="Star img" />
         </div>
         <div className={styles.movieContent}>
           <Image
@@ -91,7 +84,7 @@ function MovieDetails({ params }: { params: { id: string } }) {
                   movieDetails.release_date.split("-")[0]}
               </Text>
             </Group>
-            <Group align="start">
+            <Group>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -132,7 +125,11 @@ function MovieDetails({ params }: { params: { id: string } }) {
               </div>
               <div className={styles.columnPair}>
                 <p className={styles.textOpposite}>Genres</p>
-                <Text size="md">{getGenreNames(movieDetails)}</Text>
+                <Text size="md">
+                  {movieDetails.genres
+                    .map((genre: Genre) => genre.name)
+                    .join(", ")}
+                </Text>
               </div>
             </div>
           </div>

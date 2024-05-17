@@ -1,3 +1,10 @@
+.starContainer {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1;
+}
+
 .movieContent {
     display: flex;
     align-items: center;

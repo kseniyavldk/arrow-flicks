@@ -33,6 +33,9 @@ function MovieCard({ movie }) {
 
   return (
     <Card key={movie.id} shadow="sm" padding="lg" radius="md" withBorder>
+      <div className={styles.starContainer}>
+        <Image src="/images/star.svg" alt="Star img" />
+      </div>
       <div className={styles.movieContent}>
         <div className={styles.imageContainer}>
           <Image
@@ -68,7 +71,7 @@ function MovieCard({ movie }) {
               {movie.release_date && movie.release_date.split("-")[0]}
             </Text>
           </Group>
-          <Group>
+          <Group style={{ marginBottom: "60px" }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

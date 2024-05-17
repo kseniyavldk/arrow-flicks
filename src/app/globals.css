@@ -98,19 +98,3 @@ a {
     color-scheme: dark;
   }
 }
-
-.navbar {
-  padding: md;
-  background-color: #f2ebf9;
-}
-
-.navbar img {
-  width: 200px;
-}
-
-.navbar-segmented-control {
-  text-align: left;
-  color: black;
-  background-color: #f2ebf9;
-  font-size: 50px;
-}

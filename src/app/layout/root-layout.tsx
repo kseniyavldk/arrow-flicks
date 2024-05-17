@@ -9,7 +9,7 @@ export const RootLayout = ({ children }: PropsWithChildren) => {
       align="flex-start"
       direction="row"
       h={"100%"}
-      bg="#EAEBED"
+      bg="#F5F5F6"
     >
       <NavBar />
       {children}

@@ -77,7 +77,13 @@ function MovieFilters({ onGenreChange, onYearChange, onRatingChange }) {
           Movies
         </Text>
       </div>
-      <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "20px",
+        }}
+      >
         <Select
           rightSection={
             <IconChevronDown style={{ width: "1rem", height: "1rem" }} />

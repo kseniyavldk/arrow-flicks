@@ -9,6 +9,7 @@ export interface Movie {
   budget: number;
   revenue: number;
   genre_ids: number[];
+  genres: Genre[];
 }
 
 export interface Genre {
