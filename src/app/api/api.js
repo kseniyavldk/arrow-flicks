@@ -1,6 +1,4 @@
-import { apiKey, token } from "../config";
-
-const baseUrl = "https://api.themoviedb.org/3";
+import { apiKey, token, baseUrl } from "../config";
 
 export async function fetchMovies(
   genre = "",
@@ -97,21 +95,17 @@ export async function fetchMovieRatings(apiKey, minRating, maxRating) {
 }
 
 export async function fetchMovieDetails(movieId) {
-  const url = `${baseUrl}/movie/${movieId}`;
-  const options = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
   try {
-    const response = await fetch(url, options);
+    const response = await fetch(
+      `${baseUrl}/movie/${movieId}?api_key=${apiKey}&language=en-US&append_to_response=videos`
+    );
     if (!response.ok) {
       throw new Error(`Failed to fetch movie details: ${response.statusText}`);
     }
     const data = await response.json();
     return data;
   } catch (error) {
+    console.error(`Error fetching movie details: ${error.message}`);
     throw new Error(`Error fetching movie details: ${error.message}`);
   }
 }

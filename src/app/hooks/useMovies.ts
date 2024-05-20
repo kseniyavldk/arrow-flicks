@@ -13,7 +13,6 @@ export function useMovies(
   useEffect(() => {
     fetchMovies(genre, year, ratingFrom || "", ratingTo || "")
       .then((data) => {
-        console.log("Received movies:", data.results);
         setMovies(data.results);
       })
       .catch((error) => console.error("Error fetching movies:", error));

@@ -10,9 +10,30 @@ export interface Movie {
   revenue: number;
   genre_ids: number[];
   genres: Genre[];
+  description: string;
+  overview: string;
 }
 
 export interface Genre {
   id: string;
   name: string;
 }
+export interface Video {
+  id: string;
+  key: string;
+  name: string;
+  site: string;
+  size: number;
+  type: string;
+  official: boolean;
+  iso_639_1: string;
+  iso_3166_1: string;
+  published_at: string;
+}
+
+export type CompanyMovieProduction = {
+  id: number;
+  name: string;
+  logo_path: string;
+  origin_country: string;
+};
