@@ -1,21 +1,37 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { fetchMovies } from "./api/api.js";
-import MovieFilters from "./components/MovieFilters.jsx";
-import MovieCard from "./components/MovieCard.jsx";
-import MovieSort from "./components/MovieSort.jsx";
-import { Movie } from "@/app/types";
+import React, { useEffect, useState } from "react";
 import { SimpleGrid, Flex, Pagination } from "@mantine/core";
 import { useMovies } from "@/app/api/tmdb.js";
+import MovieFilters from "./components/MovieFilters";
+import MovieCard from "./components/MovieCard";
+import MovieSort from "./components/MovieSort";
+import { Movie } from "../app/types";
 
 function Demo() {
-  const [genre, setGenre] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
-  const [ratingFrom, setRatingFrom] = useState("");
-  const [ratingTo, setRatingTo] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const moviesList: Movie[] = useMovies(genre, selectedYear);
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const [genre, setGenre] = useState<string>("");
+  const [selectedYear, setSelectedYear] = useState<string>("");
+  const [ratingFrom, setRatingFrom] = useState<string>("");
+  const [ratingTo, setRatingTo] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const moviesPerPage = 12;
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [currentMovies, setCurrentMovies] = useState<Movie[]>([]);
+
+  const movies: Movie[] = useMovies(genre, selectedYear, ratingFrom, ratingTo);
+
+  useEffect(() => {
+    const totalMovies = movies.length;
+    const calculatedTotalPages = Math.ceil(totalMovies / moviesPerPage);
+    setTotalPages(calculatedTotalPages);
+  }, [movies, moviesPerPage]);
+
+  useEffect(() => {
+    const indexOfLastMovie = currentPage * moviesPerPage;
+    const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
+    const slicedMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
+    setCurrentMovies(slicedMovies);
+  }, [movies, currentPage, moviesPerPage]);
 
   const handleGenreChange = (value: string) => {
     setGenre(value);
@@ -25,27 +41,13 @@ function Demo() {
     setSelectedYear(value);
   };
 
-  const handleRatingChange = (from: string, to: string) => {
-    setRatingFrom(from);
-    setRatingTo(to);
+  const handleRatingChange = (minRating: string, maxRating: string) => {
+    setRatingFrom(minRating);
+    setRatingTo(maxRating);
+    setCurrentPage(1);
   };
 
-  useEffect(() => {
-    fetchMovies(genre, selectedYear, ratingFrom, ratingTo)
-      .then((data) => setMovies(data.results))
-      .catch((error) => console.error("Error fetching movies:", error));
-  }, [genre, selectedYear, ratingFrom, ratingTo]);
-
-  const moviesPerPage = 12;
-  const totalPages = Math.ceil(moviesList.length / moviesPerPage);
-
-  const indexOfLastMovie = currentPage * moviesPerPage;
-  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-  const currentMovies = moviesList.slice(indexOfFirstMovie, indexOfLastMovie);
-
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
-  const [showRatedMovies, setShowRatedMovies] = useState(true);
 
   return (
     <Flex
@@ -86,4 +88,5 @@ function Demo() {
     </Flex>
   );
 }
+
 export default Demo;

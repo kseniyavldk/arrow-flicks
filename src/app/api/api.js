@@ -54,7 +54,8 @@ export async function fetchMovieGenres() {
 
     return genres;
   } catch (error) {
-    throw new Error("Error fetching movie genres: " + error.message);
+    console.error("Error fetching movie genres:", error);
+    throw new Error("Failed to fetch movie genres");
   }
 }
 
@@ -79,8 +80,8 @@ export async function fetchMoviesYears() {
   }
 }
 
-export async function fetchMovieRatings(apiKey) {
-  const url = `${baseUrl}/movie/ratings?api_key=${apiKey}`;
+export async function fetchMovieRatings(apiKey, minRating, maxRating) {
+  const url = `${baseUrl}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&vote_average.gte=${minRating}&vote_average.lte=${maxRating}&api_key=${apiKey}`;
 
   try {
     const response = await fetch(url);
@@ -89,12 +90,7 @@ export async function fetchMovieRatings(apiKey) {
     }
     const data = await response.json();
 
-    const ratings = data.map((rating) => ({
-      value: String(rating.value),
-      label: String(rating.label),
-    }));
-
-    return ratings;
+    return data;
   } catch (error) {
     throw new Error("Error fetching movie ratings: " + error.message);
   }

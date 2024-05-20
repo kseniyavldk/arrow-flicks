@@ -1,23 +1,28 @@
 import { useEffect, useState } from "react";
 import { fetchMovies } from "./api.js";
 
-export function useMovies(genre = "", year = "") {
+export function useMovies(
+  genre = "",
+  year = "",
+  ratingFrom = "",
+  ratingTo = ""
+) {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    const fetchMoviesByGenreAndYear = async () => {
+    const fetchMoviesByGenreYearAndRating = async () => {
       try {
-        const moviesData = await fetchMovies(genre, year);
+        const moviesData = await fetchMovies(genre, year, ratingFrom, ratingTo);
         setMovies(moviesData.results);
       } catch (error) {
         console.error("Error fetching movies:", error);
       }
     };
 
-    fetchMoviesByGenreAndYear();
+    fetchMoviesByGenreYearAndRating();
 
     return () => {};
-  }, [genre, year]);
+  }, [genre, year, ratingFrom, ratingTo]);
 
   return movies;
 }

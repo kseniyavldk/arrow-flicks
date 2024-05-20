@@ -17,7 +17,7 @@ function MovieSort() {
         }
         label="Sort by"
         placeholder="Most popular"
-        data={["Most popular"]}
+        data={["Most popular", "Newest", "Oldest"]}
       />
     </div>
   );
