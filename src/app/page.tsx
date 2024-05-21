@@ -1,24 +1,42 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { SimpleGrid, Flex, Pagination } from "@mantine/core";
-import { useMovies } from "@/app/api/tmdb.js";
+import { useMovies } from "@/app/api/tmdb";
 import MovieFilters from "./components/MovieFilters";
 import MovieCard from "./components/MovieCard";
 import MovieSort from "./components/MovieSort";
-import { Movie } from "../app/types";
+import { Movie, SearchParams } from "../app/types";
 
-function Demo() {
+interface DemoProps {
+  searchParams: SearchParams;
+}
+
+function Demo({ searchParams }: DemoProps) {
   const [genre, setGenre] = useState<string>("");
   const [selectedYear, setSelectedYear] = useState<string>("");
   const [ratingFrom, setRatingFrom] = useState<string>("");
   const [ratingTo, setRatingTo] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [selectedSortBy, setSelectedSortBy] =
+    useState<string>("popularity.desc");
 
   const moviesPerPage = 12;
-  const [totalPages, setTotalPages] = useState<number>(1);
   const [currentMovies, setCurrentMovies] = useState<Movie[]>([]);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
   const movies: Movie[] = useMovies(genre, selectedYear, ratingFrom, ratingTo);
+
+  useEffect(() => {
+    const sortedMovies = [...movies].sort((a, b) => {
+      if (selectedSortBy === "vote_average.desc") {
+        return b.vote_average - a.vote_average;
+      } else if (selectedSortBy === "vote_average.asc") {
+        return a.vote_average - b.vote_average;
+      }
+      return b.popularity - a.popularity;
+    });
+    setCurrentMovies(sortedMovies);
+  }, [movies, selectedSortBy]);
 
   useEffect(() => {
     const totalMovies = movies.length;
@@ -47,6 +65,10 @@ function Demo() {
     setCurrentPage(1);
   };
 
+  const handleSortChange = (value: string) => {
+    setSelectedSortBy(value);
+  };
+
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
@@ -67,7 +89,10 @@ function Demo() {
           onRatingChange={handleRatingChange}
         />
         <Flex justify="flex-end" mt={20}>
-          <MovieSort />
+          <MovieSort
+            defaultSortOption={selectedSortBy}
+            onSortChange={handleSortChange}
+          />
         </Flex>
       </Flex>
 

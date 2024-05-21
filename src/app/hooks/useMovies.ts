@@ -6,17 +6,18 @@ export function useMovies(
   genre: string,
   year: string,
   ratingFrom?: string,
-  ratingTo?: string
+  ratingTo?: string,
+  selectedSortBy?: string
 ) {
   const [movies, setMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
-    fetchMovies(genre, year, ratingFrom || "", ratingTo || "")
+    fetchMovies(genre, year, ratingFrom || "", ratingTo || "", selectedSortBy)
       .then((data) => {
         setMovies(data.results);
       })
       .catch((error) => console.error("Error fetching movies:", error));
-  }, [genre, year, ratingFrom, ratingTo]);
+  }, [genre, year, ratingFrom, ratingTo, selectedSortBy]);
 
   return movies;
 }

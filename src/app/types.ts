@@ -5,6 +5,7 @@ export interface Movie {
   release_date: string;
   vote_average: number;
   vote_count: number;
+  popularity: number;
   runtime: number;
   budget: number;
   revenue: number;
@@ -37,3 +38,11 @@ export type CompanyMovieProduction = {
   logo_path: string;
   origin_country: string;
 };
+
+export interface SearchParams {
+  sort_by?: string;
+  genre?: string;
+  year?: string;
+  ratingFrom?: string;
+  ratingTo?: string;
+}

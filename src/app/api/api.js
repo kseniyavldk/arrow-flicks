@@ -4,7 +4,8 @@ export async function fetchMovies(
   genre = "",
   year = "",
   ratingFrom = "",
-  ratingTo = ""
+  ratingTo = "",
+  sortBy = ""
 ) {
   const url = new URL(`${baseUrl}/discover/movie`);
 
@@ -22,6 +23,10 @@ export async function fetchMovies(
 
   if (ratingTo !== undefined && ratingTo !== "") {
     url.searchParams.append("vote_average.lte", ratingTo);
+  }
+
+  if (sortBy) {
+    url.searchParams.append("sort_by", sortBy);
   }
 
   url.searchParams.append("api_key", apiKey);
@@ -91,6 +96,44 @@ export async function fetchMovieRatings(apiKey, minRating, maxRating) {
     return data;
   } catch (error) {
     throw new Error("Error fetching movie ratings: " + error.message);
+  }
+}
+
+export async function fetchMovieSortOptions() {
+  const url = new URL(`${baseUrl}/discover/movie`);
+  url.searchParams.append("api_key", apiKey);
+  url.searchParams.append("include_adult", "false");
+  url.searchParams.append("include_video", "false");
+  url.searchParams.append("language", "en-US");
+  url.searchParams.append("page", "1");
+  url.searchParams.append("sort_by", "popularity.desc");
+  const options = {
+    method: "GET",
+  };
+
+  try {
+    const response = await fetch(url.toString(), options);
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch movie sort options: ${response.statusText}`
+      );
+    }
+    const data = await response.json();
+
+    const sortOptions = [
+      { value: "popularity.desc", label: "Most popular" },
+      { value: "popularity.asc", label: "Least popular" },
+      { value: "vote_average.desc", label: "Most rated" },
+      { value: "vote_average.asc", label: "Least rated" },
+      { value: "vote_count.desc", label: "Most voted" },
+      { value: "vote_count.asc", label: "Least voted" },
+      { value: "primary_release_date.desc", label: "Latest released" },
+      { value: "primary_release_date.asc", label: "Earliest released" },
+    ];
+
+    return sortOptions;
+  } catch (error) {
+    throw new Error("Error fetching movie sort options: " + error.message);
   }
 }
 

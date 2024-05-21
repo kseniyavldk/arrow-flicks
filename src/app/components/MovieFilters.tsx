@@ -87,6 +87,8 @@ function MovieFilters({
           rightSection={
             <IconChevronDown style={{ width: "1rem", height: "1rem" }} />
           }
+          size="md"
+          radius="md"
           label="Genres"
           placeholder="Select genre"
           data={genres.map((genre) => ({ value: genre.id, label: genre.name }))}
@@ -97,6 +99,8 @@ function MovieFilters({
           rightSection={
             <IconChevronDown style={{ width: "1rem", height: "1rem" }} />
           }
+          size="md"
+          radius="md"
           label="Release year"
           placeholder="Select release year"
           data={releaseYears}
@@ -117,7 +121,7 @@ function MovieFilters({
           onChange={(value) => handleRatingChange(String(value), maxRating)}
         />
         <NumberInput
-          maw={rem(138)}
+          maw={rem(130)}
           max={10}
           min={0}
           step={1}
