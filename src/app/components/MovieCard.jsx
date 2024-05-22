@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Card, Image, Text, Group } from "@mantine/core";
+import { Card, Image, Text, Group, Button } from "@mantine/core";
 import styles from "./MovieCard.module.css";
 import { fetchMovieGenres } from "/src/app/api/api.js";
 import Link from "next/link";
 import StarImage from "./StarImage";
-import RatingPopup from "./RatingPopup";
+import RatingModal from "./RatingPopup";
+import { useDisclosure } from "@mantine/hooks";
 
 function MovieCard({ movie }) {
   const [genres, setGenres] = useState([]);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
     async function fetchGenres() {
@@ -34,25 +35,19 @@ function MovieCard({ movie }) {
     return genreNames.join(", ");
   };
 
-  const handleStarClick = () => {
-    setIsPopupOpen(true);
-  };
-
-  const handleClosePopup = () => {
-    setIsPopupOpen(false);
-  };
-
   return (
     <Card key={movie.id} shadow="sm" padding="lg" radius="md" withBorder>
-      {/* <div className={styles.starContainer}>
-        <Image src="/images/star.svg" alt="Star img" />
-      </div> */}
+      <RatingModal opened={opened} close={close} movie={movie} />
 
-      {isPopupOpen && (
-        <RatingPopup movieId={movie.id} onClose={handleClosePopup} />
-      )}
+      <Button
+        variant="subtle"
+        className={styles.starContainer}
+        border="none"
+        onClick={open}
+      >
+        <StarImage />
+      </Button>
 
-      {/* <StarImage onClick={handleStarClick} /> */}
       <div className={styles.movieContent}>
         <div className={styles.imageContainer}>
           <Image

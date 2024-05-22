@@ -37,7 +37,7 @@ function MovieDetailsCard({
         <p>No trailer available</p>
       )}
 
-      <Divider my="md" />
+      <Divider my="md" bg="#D5D6DC" />
 
       <Title size="md" fw="600" mb="md">
         Description
@@ -48,7 +48,7 @@ function MovieDetailsCard({
       </Text>
 
       {(trailerUrl || description) && production && production.length > 0 ? (
-        <Divider bg="gray.3" my="xl" />
+        <Divider bg="#D5D6DC" my="xl" />
       ) : null}
 
       {production && production.length > 0 ? (
