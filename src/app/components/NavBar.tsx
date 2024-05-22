@@ -1,5 +1,5 @@
 "use client";
-import { Flex, Group, NavLink, Text } from "@mantine/core";
+import { Flex, Group, NavLink, Image } from "@mantine/core";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./navbar.module.css";
@@ -23,7 +23,7 @@ const NavBar = () => {
       h={"100vh"}
     >
       <Group display={"flex"} gap={12} align="center">
-        <img src="logo.png" alt="Logo" className={styles.logo} />
+        <Image src="logo.png" alt="Logo" className={styles.logo} />
       </Group>
       <Flex direction={"column"} w="100%" gap={10}>
         <NavLink
