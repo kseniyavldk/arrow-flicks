@@ -3,9 +3,12 @@ import { Card, Image, Text, Group } from "@mantine/core";
 import styles from "./MovieCard.module.css";
 import { fetchMovieGenres } from "/src/app/api/api.js";
 import Link from "next/link";
+import StarImage from "./StarImage";
+import RatingPopup from "./RatingPopup";
 
 function MovieCard({ movie }) {
   const [genres, setGenres] = useState([]);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   useEffect(() => {
     async function fetchGenres() {
@@ -31,11 +34,25 @@ function MovieCard({ movie }) {
     return genreNames.join(", ");
   };
 
+  const handleStarClick = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  };
+
   return (
     <Card key={movie.id} shadow="sm" padding="lg" radius="md" withBorder>
-      <div className={styles.starContainer}>
+      {/* <div className={styles.starContainer}>
         <Image src="/images/star.svg" alt="Star img" />
-      </div>
+      </div> */}
+
+      {isPopupOpen && (
+        <RatingPopup movieId={movie.id} onClose={handleClosePopup} />
+      )}
+
+      {/* <StarImage onClick={handleStarClick} /> */}
       <div className={styles.movieContent}>
         <div className={styles.imageContainer}>
           <Image
