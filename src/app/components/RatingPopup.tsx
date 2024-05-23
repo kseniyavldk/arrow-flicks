@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Modal,
   Text,
@@ -18,10 +18,15 @@ interface RatingModalProps {
 }
 
 const RatingModal: React.FC<RatingModalProps> = ({ opened, close, movie }) => {
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = React.useState(0);
 
   const handleSubmit = () => {
-    console.log("User rating:", rating);
+    localStorage.setItem(`movie_${movie.id}_rating`, rating.toString());
+    close();
+  };
+
+  const handleRemoveRating = () => {
+    localStorage.removeItem(`movie_${movie.id}_rating`);
     close();
   };
 
@@ -43,7 +48,7 @@ const RatingModal: React.FC<RatingModalProps> = ({ opened, close, movie }) => {
       </Text>
 
       <Group mb="xl" variant="default">
-        <Rating defaultValue={2} size="xl" count={8} />
+        <Rating value={rating} onChange={setRating} size="xl" count={10} />
       </Group>
       <Group>
         <Button miw="fit-content" bg="#9854F6" size="md" onClick={handleSubmit}>
@@ -53,7 +58,7 @@ const RatingModal: React.FC<RatingModalProps> = ({ opened, close, movie }) => {
           variant="transparent"
           miw="fit-content"
           size="md"
-          onClick={handleSubmit}
+          onClick={handleRemoveRating}
           color="#9854F6"
         >
           Remove rating

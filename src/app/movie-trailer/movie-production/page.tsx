@@ -10,8 +10,6 @@ type MovieProductionProps = {
 };
 
 function MovieProduction({ src, title }: MovieProductionProps) {
-  console.log(src);
-
   return (
     <Group gap="md">
       <Box
