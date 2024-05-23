@@ -98,7 +98,11 @@ function Demo({ searchParams }: DemoProps) {
 
       <SimpleGrid cols={2} spacing="sm" verticalSpacing="sm" w="100%">
         {currentMovies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            rating={localStorage.getItem(`movie_${movie.id}_rating`)}
+          />
         ))}
       </SimpleGrid>
 

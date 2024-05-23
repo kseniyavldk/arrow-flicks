@@ -7,7 +7,7 @@ import StarImage from "./StarImage";
 import RatingModal from "./RatingPopup";
 import { useDisclosure } from "@mantine/hooks";
 
-function MovieCard({ movie }) {
+function MovieCard({ movie, rating }) {
   const [genres, setGenres] = useState([]);
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -40,14 +40,19 @@ function MovieCard({ movie }) {
     <Card key={movie.id} shadow="sm" padding="lg" radius="md" withBorder>
       <RatingModal opened={opened} close={close} movie={movie} />
 
-      <Button
-        variant="subtle"
-        className={styles.starContainer}
-        border="none"
-        onClick={open}
-      >
-        <StarImage />
-      </Button>
+      <div className={styles.starAndRatingContainer}>
+        <Button
+          variant="transparent"
+          className={styles.starContainer}
+          border="none"
+          onClick={open}
+        >
+          <StarImage alt="Star img" rated={rating > 0} />
+          <Text size="lg" ml="5px" fw={700} c="black">
+            {rating}
+          </Text>
+        </Button>
+      </div>
 
       <div className={styles.movieContent}>
         <div className={styles.imageContainer}>
@@ -73,6 +78,7 @@ function MovieCard({ movie }) {
                   fontWeight: 600,
                   color: "#9854F6",
                   cursor: "pointer",
+                  marginBottom: "5px",
                 }}
               >
                 {movie.title}

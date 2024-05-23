@@ -1,19 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import {
-  Text,
-  Button,
-  Container,
-  Group,
-  Title,
-  rem,
-  Grid,
-  Box,
-} from "@mantine/core";
+import { Container, rem, SimpleGrid } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
 import MovieCard from "../components/MovieCard";
-import FormSearch from "../components/FormSearch";
+import NoRatedMovies from "../components/NoRatedMovies";
+import EmptyResult from "../components/EmptyResult";
+import Header from "../components/HeaderRatedMovies";
 import { fetchMovieDetails } from "@/app/api/api";
 
 interface RatedMovie {
@@ -25,6 +18,7 @@ interface RatedMovie {
 const RatedMovies = () => {
   const [ratedMovies, setRatedMovies] = useState<RatedMovie[]>([]);
   const [filteredMovies, setFilteredMovies] = useState<RatedMovie[]>([]);
+  const [searchEmpty, setSearchEmpty] = useState(false);
 
   useEffect(() => {
     const getRatedMovies = async () => {
@@ -49,67 +43,35 @@ const RatedMovies = () => {
   const handleSearch = (query: string) => {
     if (query === "") {
       setFilteredMovies(ratedMovies);
+      setSearchEmpty(false);
     } else {
       const filtered = ratedMovies.filter((movie) =>
         movie.title.toLowerCase().includes(query.toLowerCase())
       );
       setFilteredMovies(filtered);
+      setSearchEmpty(filtered.length === 0);
     }
   };
 
   return (
     <Container my={rem(40)} px="xmd" size={rem(1000)}>
-      <Group justify="space-between" gap="md" mb={rem(40)}>
-        <Title order={1}>Rated movies</Title>
-        <FormSearch onSearch={handleSearch} />
-      </Group>
+      <Header onSearch={handleSearch} />
 
-      {filteredMovies.length > 0 ? (
-        <Grid gutter="md">
-          {filteredMovies.map((movie) => (
-            <Grid.Col span={6} key={movie.id}>
-              <MovieCard movie={movie} />
-            </Grid.Col>
-          ))}
-        </Grid>
+      {searchEmpty ? (
+        <EmptyResult />
       ) : (
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: "70vh",
-            textAlign: "center",
-          }}
-        >
-          <Image
-            src="/images/loading.png"
-            alt="Loading"
-            width={500}
-            height={400}
-          />
-          <Text
-            style={{ marginTop: "20px", fontSize: "20px", fontWeight: 600 }}
-          >
-            You haven&apos;t rated any films yet
-          </Text>
-          <Link href="/" passHref>
-            <Button
-              style={{
-                marginTop: "20px",
-                background: "#9854F6",
-                width: "122px",
-                height: "40px",
-                padding: "10px 20px",
-                gap: "10px",
-                borderRadius: "8px",
-              }}
-            >
-              Find movies
-            </Button>
-          </Link>
-        </Box>
+        <>
+          {filteredMovies.length === 0 && <NoRatedMovies />}
+          <SimpleGrid cols={2} spacing="sm" verticalSpacing="sm" w="100%">
+            {filteredMovies.map((movie) => (
+              <MovieCard
+                key={movie.id}
+                movie={movie}
+                rating={localStorage.getItem(`movie_${movie.id}_rating`)}
+              />
+            ))}
+          </SimpleGrid>
+        </>
       )}
     </Container>
   );

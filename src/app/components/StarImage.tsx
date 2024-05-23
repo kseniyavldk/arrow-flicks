@@ -3,13 +3,17 @@ import { Image } from "@mantine/core";
 
 interface StarProps {
   alt: string;
-  src: string;
+  rated: boolean;
 }
 
-const StarImage: React.FC<StarProps> = ({ alt, src }) => {
+const StarImage: React.FC<StarProps> = ({ alt, rated }) => {
+  const starImageSrc = rated
+    ? "/images/star-background.svg"
+    : "/images/star.svg";
+
   return (
     <div>
-      <Image src="/images/star.svg" alt="Star img" />
+      <Image src={starImageSrc} alt={alt} />
     </div>
   );
 };
