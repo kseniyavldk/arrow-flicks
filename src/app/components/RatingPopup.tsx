@@ -15,6 +15,7 @@ interface RatingModalProps {
   opened: boolean;
   close: () => void;
   movie: Movie;
+  onUpdateRating: (rating: number) => void;
   setUserRating: (rating: number) => void;
 }
 
@@ -23,18 +24,22 @@ const RatingModal: React.FC<RatingModalProps> = ({
   close,
   movie,
   setUserRating,
+  onUpdateRating,
 }) => {
   const [rating, setRating] = React.useState(0);
 
   const handleSubmit = () => {
     localStorage.setItem(`movie_${movie.id}_rating`, rating.toString());
     setUserRating(rating);
+    onUpdateRating(rating);
     close();
   };
 
   const handleRemoveRating = () => {
     localStorage.removeItem(`movie_${movie.id}_rating`);
     setUserRating(0);
+    onUpdateRating(0);
+
     close();
   };
 

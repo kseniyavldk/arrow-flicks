@@ -82,6 +82,10 @@ function MovieCard({ params }: MovieDetailsProps) {
     return date.toLocaleDateString("en-US", options);
   };
 
+  const onUpdateRating = (newRating: number) => {
+    setUserRating(newRating);
+  };
+
   if (!movieDetails) {
     return (
       <div className={styles.loaderContainer}>
@@ -203,6 +207,7 @@ function MovieCard({ params }: MovieDetailsProps) {
         close={close}
         movie={movieDetails}
         setUserRating={setUserRating}
+        onUpdateRating={onUpdateRating}
       />
     </Paper>
   );

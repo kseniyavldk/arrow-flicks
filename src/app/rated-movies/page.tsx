@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Container, rem, SimpleGrid } from "@mantine/core";
+import { Container, rem, SimpleGrid, Flex, Pagination } from "@mantine/core";
 import MovieCard from "../components/MovieCard";
 import NoRatedMovies from "../components/NoRatedMovies";
 import EmptyResult from "../components/EmptyResult";
@@ -18,6 +18,9 @@ const RatedMovies = () => {
   const [filteredMovies, setFilteredMovies] = useState<RatedMovie[]>([]);
   const [searchEmpty, setSearchEmpty] = useState(false);
   const [genres, setGenres] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const moviesPerPage = 4;
+  const [totalPages, setTotalPages] = useState<number>(1);
 
   useEffect(() => {
     const getRatedMovies = async () => {
@@ -62,6 +65,21 @@ const RatedMovies = () => {
     }
   };
 
+  useEffect(() => {
+    const totalMovies = filteredMovies.length;
+    const calculatedTotalPages = Math.ceil(totalMovies / moviesPerPage);
+    setTotalPages(calculatedTotalPages);
+  }, [filteredMovies, moviesPerPage]);
+
+  const indexOfLastMovie = currentPage * moviesPerPage;
+  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
+  const currentMovies = filteredMovies.slice(
+    indexOfFirstMovie,
+    indexOfLastMovie
+  );
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
   return (
     <Container my={rem(40)} px="xmd" size={rem(1000)}>
       <Header onSearch={handleSearch} />
@@ -70,9 +88,9 @@ const RatedMovies = () => {
         <EmptyResult />
       ) : (
         <>
-          {filteredMovies.length === 0 && <NoRatedMovies />}
+          {currentMovies.length === 0 && <NoRatedMovies />}
           <SimpleGrid cols={2} spacing="sm" verticalSpacing="sm" w="100%">
-            {filteredMovies.map((movie) => (
+            {currentMovies.map((movie) => (
               <MovieCard
                 key={movie.id}
                 movie={movie}
@@ -83,6 +101,15 @@ const RatedMovies = () => {
           </SimpleGrid>
         </>
       )}
+
+      <Flex justify="center" mt={20} w="100%">
+        <Pagination
+          total={totalPages}
+          color={"#9854F6"}
+          onChange={paginate}
+          value={currentPage}
+        />
+      </Flex>
     </Container>
   );
 };

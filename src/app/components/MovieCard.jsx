@@ -9,7 +9,7 @@ import { useDisclosure } from "@mantine/hooks";
 
 function MovieCard({ movie, rating, genres }) {
   const [opened, { open, close }] = useDisclosure(false);
-  const [userRating, setUserRating] = useState(0);
+  const [userRating, setUserRating] = useState(rating);
 
   useEffect(() => {
     async function fetchGenres() {
@@ -41,6 +41,10 @@ function MovieCard({ movie, rating, genres }) {
     return genreNames.join(", ");
   };
 
+  const onUpdateRating = (newRating) => {
+    setUserRating(newRating);
+  };
+
   return (
     <Card key={movie.id} shadow="sm" padding="lg" radius="md" withBorder>
       <RatingModal
@@ -48,6 +52,7 @@ function MovieCard({ movie, rating, genres }) {
         close={close}
         movie={movie}
         setUserRating={setUserRating}
+        onUpdateRating={onUpdateRating}
       />
 
       <div className={styles.starAndRatingContainer}>
