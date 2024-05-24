@@ -27,7 +27,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/[movie]/id.js",
-    "src/app/components/MovieCard.jsx",
     "src/app/components/NavBar.tsx",
     "src/app/components/NavBar.tsx",
     "src/app/movie/[id]/page.tsx"

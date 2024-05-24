@@ -1,10 +1,23 @@
 "use client";
 import { notFound } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import { Paper, Stack, Image, Text, Group, Box, Loader } from "@mantine/core";
+import {
+  Paper,
+  Stack,
+  Image,
+  Text,
+  Group,
+  Box,
+  Loader,
+  Button,
+} from "@mantine/core";
 import { fetchMovieDetails, fetchMovieGenres } from "@/app/api/api.js";
 import { token } from "@/app/config.js";
 import { Movie, Genre, Video } from "@/app/types";
+import StarImage from "../components/StarImage";
+import { useDisclosure } from "@mantine/hooks";
+import RatingModal from "../components/RatingPopup";
+
 import styles from "./page.module.css";
 import { CompanyMovieProduction } from "@/app/types";
 
@@ -19,6 +32,8 @@ function MovieCard({ params }: MovieDetailsProps) {
   const [productionData, setProductionData] = useState<
     CompanyMovieProduction[]
   >([]);
+  const [opened, { open, close }] = useDisclosure(false);
+  const [userRating, setUserRating] = useState<number>(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -38,6 +53,11 @@ function MovieCard({ params }: MovieDetailsProps) {
         }
         const genresData = await fetchMovieGenres();
         setGenres(genresData);
+
+        const storedRating = localStorage.getItem(`movie_${params.id}_rating`);
+        if (storedRating) {
+          setUserRating(parseInt(storedRating));
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -79,7 +99,16 @@ function MovieCard({ params }: MovieDetailsProps) {
       <Box
         style={{ position: "absolute", top: "8px", right: "8px", zIndex: 1 }}
       >
-        <Image src="/images/star.svg" alt="Star img" />
+        <Button
+          variant="transparent"
+          className={styles.starContainer}
+          onClick={open}
+        >
+          <StarImage alt="Star img" rated={userRating > 0} />
+          <Text size="lg" ml="5px" fw={700} c="black">
+            {userRating}
+          </Text>
+        </Button>
       </Box>
 
       <Group align="flex-start" wrap="nowrap" gap="xlg">
@@ -90,7 +119,6 @@ function MovieCard({ params }: MovieDetailsProps) {
             alt={movieDetails.title}
           />
         </Box>
-
         <Box>
           <Text size="lg" c="#9854F6" fw={600}>
             {movieDetails.title}
@@ -169,6 +197,13 @@ function MovieCard({ params }: MovieDetailsProps) {
           </Stack>
         </Box>
       </Group>
+
+      <RatingModal
+        opened={opened}
+        close={close}
+        movie={movieDetails}
+        setUserRating={setUserRating}
+      />
     </Paper>
   );
 }

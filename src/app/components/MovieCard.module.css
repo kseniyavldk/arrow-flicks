@@ -20,3 +20,12 @@
 .textContainer {
     flex: 1;
 }
+
+.textContainer>* {
+    margin-bottom: 5px;
+}
+
+.genreText {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}

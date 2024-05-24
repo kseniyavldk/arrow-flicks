@@ -7,15 +7,14 @@ import StarImage from "./StarImage";
 import RatingModal from "./RatingPopup";
 import { useDisclosure } from "@mantine/hooks";
 
-function MovieCard({ movie, rating }) {
-  const [genres, setGenres] = useState([]);
+function MovieCard({ movie, rating, genres }) {
   const [opened, { open, close }] = useDisclosure(false);
+  const [userRating, setUserRating] = useState(0);
 
   useEffect(() => {
     async function fetchGenres() {
       try {
         const genresData = await fetchMovieGenres();
-        setGenres(genresData);
       } catch (error) {
         console.error("Error fetching movie genres:", error);
       }
@@ -25,8 +24,14 @@ function MovieCard({ movie, rating }) {
   }, []);
 
   const getGenreNames = (movie) => {
-    if (!genres.length || !movie.genre_ids || !Array.isArray(movie.genre_ids))
+    if (
+      !genres ||
+      !genres.length ||
+      !movie.genre_ids ||
+      !Array.isArray(movie.genre_ids)
+    ) {
       return "";
+    }
 
     const genreNames = movie.genre_ids.map((id) => {
       const genre = genres.find((genre) => genre.id === String(id));
@@ -38,7 +43,12 @@ function MovieCard({ movie, rating }) {
 
   return (
     <Card key={movie.id} shadow="sm" padding="lg" radius="md" withBorder>
-      <RatingModal opened={opened} close={close} movie={movie} />
+      <RatingModal
+        opened={opened}
+        close={close}
+        movie={movie}
+        setUserRating={setUserRating}
+      />
 
       <div className={styles.starAndRatingContainer}>
         <Button

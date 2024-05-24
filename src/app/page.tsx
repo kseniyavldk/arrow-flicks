@@ -6,6 +6,7 @@ import MovieFilters from "./components/MovieFilters";
 import MovieCard from "./components/MovieCard";
 import MovieSort from "./components/MovieSort";
 import { Movie, SearchParams } from "../app/types";
+import { fetchMovieGenres } from "@/app/api/api.js";
 
 interface DemoProps {
   searchParams: SearchParams;
@@ -23,6 +24,7 @@ function Demo({ searchParams }: DemoProps) {
   const moviesPerPage = 12;
   const [currentMovies, setCurrentMovies] = useState<Movie[]>([]);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [genres, setGenres] = useState<string[]>([]);
 
   const movies: Movie[] = useMovies(genre, selectedYear, ratingFrom, ratingTo);
 
@@ -50,6 +52,19 @@ function Demo({ searchParams }: DemoProps) {
     const slicedMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
     setCurrentMovies(slicedMovies);
   }, [movies, currentPage, moviesPerPage]);
+
+  useEffect(() => {
+    const fetchGenres = async () => {
+      try {
+        const genresData = await fetchMovieGenres();
+        setGenres(genresData);
+      } catch (error) {
+        console.error("Error fetching movie genres:", error);
+      }
+    };
+
+    fetchGenres();
+  }, []);
 
   const handleGenreChange = (value: string) => {
     setGenre(value);
@@ -102,6 +117,7 @@ function Demo({ searchParams }: DemoProps) {
             key={movie.id}
             movie={movie}
             rating={localStorage.getItem(`movie_${movie.id}_rating`)}
+            genres={genres}
           />
         ))}
       </SimpleGrid>

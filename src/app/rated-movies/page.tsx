@@ -1,13 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Container, rem, SimpleGrid } from "@mantine/core";
-import Image from "next/image";
-import Link from "next/link";
 import MovieCard from "../components/MovieCard";
 import NoRatedMovies from "../components/NoRatedMovies";
 import EmptyResult from "../components/EmptyResult";
 import Header from "../components/HeaderRatedMovies";
-import { fetchMovieDetails } from "@/app/api/api";
+import { fetchMovieDetails, fetchMovieGenres } from "@/app/api/api";
 
 interface RatedMovie {
   id: string;
@@ -19,6 +17,7 @@ const RatedMovies = () => {
   const [ratedMovies, setRatedMovies] = useState<RatedMovie[]>([]);
   const [filteredMovies, setFilteredMovies] = useState<RatedMovie[]>([]);
   const [searchEmpty, setSearchEmpty] = useState(false);
+  const [genres, setGenres] = useState([]);
 
   useEffect(() => {
     const getRatedMovies = async () => {
@@ -37,7 +36,17 @@ const RatedMovies = () => {
       setFilteredMovies(ratedMovies);
     };
 
+    const fetchGenresData = async () => {
+      try {
+        const genresData = await fetchMovieGenres();
+        setGenres(genresData);
+      } catch (error) {
+        console.error("Error fetching movie genres:", error);
+      }
+    };
+
     getRatedMovies();
+    fetchGenresData();
   }, []);
 
   const handleSearch = (query: string) => {
@@ -68,6 +77,7 @@ const RatedMovies = () => {
                 key={movie.id}
                 movie={movie}
                 rating={localStorage.getItem(`movie_${movie.id}_rating`)}
+                genres={genres}
               />
             ))}
           </SimpleGrid>
