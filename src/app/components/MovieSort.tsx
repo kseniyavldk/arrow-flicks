@@ -1,5 +1,6 @@
+"use client";
 import React, { useEffect, useState } from "react";
-import { Select } from "@mantine/core";
+import { Select, Flex } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 import { fetchMovieSortOptions } from "@/app/api/api";
 
@@ -40,7 +41,7 @@ const MovieSort: React.FC<MovieSortProps> = ({
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "flex-end" }}>
+    <Flex justify="flex-end">
       <Select
         style={{ width: "200px" }}
         rightSection={
@@ -54,7 +55,7 @@ const MovieSort: React.FC<MovieSortProps> = ({
         value={selectedSortOption}
         onChange={handleSortChange}
       />
-    </div>
+    </Flex>
   );
 };
 

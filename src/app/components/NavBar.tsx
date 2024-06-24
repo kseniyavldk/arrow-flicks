@@ -1,14 +1,16 @@
 "use client";
-import { Flex, Group, NavLink, Image } from "@mantine/core";
+import { Flex, Group, NavLink, Image, Burger } from "@mantine/core";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import styles from "./navbar.module.css";
 
 const NavBar = () => {
   const pathname = usePathname();
+  const [opened, setOpened] = useState(false);
 
-  const hrefMovies = () => pathname === "/";
-  const hrefRated = () => pathname === "/rated-movies";
+  const hrefMovies = pathname === "/";
+  const hrefRated = pathname === "/rated-movies";
 
   return (
     <Flex
@@ -20,12 +22,22 @@ const NavBar = () => {
       direction="column"
       p={24}
       m={0}
-      h={"100vh"}
+      className={styles.navbar}
     >
-      <Group display={"flex"} gap={12} align="center">
+      <Group display={"flex"} gap={12} align="center" className={styles.header}>
         <Image src="logo.png" alt="Logo" className={styles.logo} />
+        <Burger
+          opened={opened}
+          onClick={() => setOpened((o) => !o)}
+          className={styles.burger}
+        />
       </Group>
-      <Flex direction={"column"} w="100%" gap={10}>
+      <Flex
+        direction={"column"}
+        w="100%"
+        gap={10}
+        className={opened ? styles.navLinksOpened : styles.navLinksClosed}
+      >
         <NavLink
           component={Link}
           href={"/"}
@@ -33,7 +45,7 @@ const NavBar = () => {
           color="#9854F6"
           classNames={{ root: styles.navlink }}
           style={{ borderRadius: 8 }}
-          active={hrefMovies()}
+          active={hrefMovies}
         />
         <NavLink
           component={Link}
@@ -42,7 +54,7 @@ const NavBar = () => {
           color="#9854F6"
           classNames={{ root: styles.navlink }}
           style={{ borderRadius: 8 }}
-          active={hrefRated()}
+          active={hrefRated}
         />
       </Flex>
     </Flex>

@@ -8,7 +8,7 @@ interface HeaderProps {
 
 const HeaderRatedMovies: React.FC<HeaderProps> = ({ onSearch }) => {
   return (
-    <SimpleGrid cols={2} spacing="xl" w="100%" mb="40px">
+    <SimpleGrid cols={2} spacing="xl" w="100%" mb="40px" miw="sm">
       <Title order={1}>Rated movies</Title>
       <FormSearch onSearch={onSearch} />
     </SimpleGrid>

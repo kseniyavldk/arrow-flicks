@@ -29,3 +29,37 @@
     max-width: 100%;
     overflow-wrap: break-word;
 }
+
+.movieContent {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 576px) {
+    .movieContent {
+        flex-direction: row;
+    }
+}
+
+.imageContainer {
+    margin-bottom: 16px;
+}
+
+@media (min-width: 576px) {
+    .imageContainer {
+        margin-bottom: 0;
+        margin-right: 16px;
+    }
+}
+
+.starAndRatingContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.starContainer {
+    display: flex;
+    align-items: center;
+}

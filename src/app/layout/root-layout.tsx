@@ -7,12 +7,14 @@ export const RootLayout = ({ children }: PropsWithChildren) => {
     <Flex
       justify="flex-start"
       align="flex-start"
-      direction="row"
+      direction={{ base: "column", sm: "row" }}
       h={"100%"}
       bg="#F5F5F6"
     >
       <NavBar />
-      {children}
+      <Flex direction="column" w="100%">
+        {children}
+      </Flex>
     </Flex>
   );
 };

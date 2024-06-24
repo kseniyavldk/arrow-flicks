@@ -1,0 +1,40 @@
+.filtersContainer {
+    width: 100%;
+}
+
+.filterItem {
+    flex: 1;
+    min-width: 200px;
+}
+
+.ratingContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.ratingInput {
+    flex: 1;
+    min-width: 100px;
+}
+
+@media (max-width: 768px) {
+    .filtersContainer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filterItem {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .ratingContainer {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .ratingInput {
+        width: 100%;
+    }
+}

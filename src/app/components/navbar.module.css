@@ -12,3 +12,40 @@
     font-size: 16px;
     font-weight: 700;
 }
+
+.navbar {
+    height: 100vh;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.burger {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        height: auto;
+        width: 100%;
+    }
+
+    .navLinksOpened {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding-bottom: 16px;
+        width: 100%;
+    }
+
+    .burger {
+        display: block;
+    }
+
+    .navLinksClosed {
+        display: none;
+    }
+}

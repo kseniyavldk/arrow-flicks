@@ -98,3 +98,23 @@ a {
     color-scheme: dark;
   }
 }
+
+@media (max-width: 768px) {
+  .mantine-Select-dropdown {
+    width: 100%;
+  }
+
+  .mantine-NumberInput-root {
+    width: 100%;
+  }
+
+  .mantine-Flex-root {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 768px) {
+  .mantine-Flex-root {
+    flex-direction: row;
+  }
+}

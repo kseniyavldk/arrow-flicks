@@ -7,6 +7,7 @@ import MovieCard from "./components/MovieCard";
 import MovieSort from "./components/MovieSort";
 import { Movie, SearchParams } from "../app/types";
 import { fetchMovieGenres } from "@/app/api/api.js";
+import styles from "./page.module.css";
 
 interface DemoProps {
   searchParams: SearchParams;
@@ -91,11 +92,12 @@ function Demo({ searchParams }: DemoProps) {
       direction={"column"}
       align={"flex-start"}
       py={20}
-      px={100}
+      px={{ base: 20, sm: 50, md: 100 }}
       gap={40}
       w={"100%"}
       h={"100%"}
       bg={"#F5F5F6"}
+      className={styles.demoContainer}
     >
       <Flex direction="column" w="100%">
         <MovieFilters
@@ -111,7 +113,12 @@ function Demo({ searchParams }: DemoProps) {
         </Flex>
       </Flex>
 
-      <SimpleGrid cols={2} spacing="sm" verticalSpacing="sm" w="100%">
+      <SimpleGrid
+        cols={{ base: 1, sm: 2 }}
+        spacing="sm"
+        verticalSpacing="sm"
+        w="100%"
+      >
         {currentMovies.map((movie) => (
           <MovieCard
             key={movie.id}
@@ -122,7 +129,7 @@ function Demo({ searchParams }: DemoProps) {
         ))}
       </SimpleGrid>
 
-      <Flex justify="flex-end" mt={20} w="100%">
+      <Flex justify="center" mt={20} w="100%">
         <Pagination
           total={totalPages}
           color={"#9854F6"}

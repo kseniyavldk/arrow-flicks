@@ -89,7 +89,13 @@ const RatedMovies = () => {
       ) : (
         <>
           {currentMovies.length === 0 && <NoRatedMovies />}
-          <SimpleGrid cols={2} spacing="sm" verticalSpacing="sm" w="100%">
+          <SimpleGrid
+            cols={{ base: 1, sm: 2 }}
+            spacing="sm"
+            verticalSpacing="sm"
+            w="100%"
+            miw="sm"
+          >
             {currentMovies.map((movie) => (
               <MovieCard
                 key={movie.id}

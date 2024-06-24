@@ -1,9 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Select, UnstyledButton, Text, NumberInput, rem } from "@mantine/core";
+import {
+  Select,
+  UnstyledButton,
+  Text,
+  NumberInput,
+  rem,
+  Flex,
+} from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 import { fetchMovieGenres, fetchMoviesYears } from "@/app/api/api.js";
 import { Genre } from "../types";
+import styles from "./movieFilters.module.css";
 
 function MovieFilters({
   onGenreChange,
@@ -82,7 +90,14 @@ function MovieFilters({
           Movies
         </Text>
       </div>
-      <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+      <Flex
+        direction={{ base: "column", sm: "row" }}
+        justify="flex-start"
+        align="center"
+        gap="20px"
+        wrap="wrap"
+        className={styles.filtersContainer}
+      >
         <Select
           rightSection={
             <IconChevronDown style={{ width: "1rem", height: "1rem" }} />
@@ -94,6 +109,7 @@ function MovieFilters({
           data={genres.map((genre) => ({ value: genre.id, label: genre.name }))}
           value={selectedGenre}
           onChange={handleGenreChange}
+          className={styles.filterItem}
         />
         <Select
           rightSection={
@@ -106,37 +122,46 @@ function MovieFilters({
           data={releaseYears}
           value={selectedYear}
           onChange={handleYearChange}
+          className={styles.filterItem}
         />
-        <NumberInput
-          maw={rem(138)}
-          max={10}
-          min={0}
-          step={1}
-          allowNegative={false}
-          decimalScale={1}
-          size="md"
-          radius="md"
-          label="Rating From"
-          placeholder="From"
-          onChange={(value) => handleRatingChange(String(value), maxRating)}
-        />
-        <NumberInput
-          maw={rem(130)}
-          max={10}
-          min={0}
-          step={1}
-          size="md"
-          radius="md"
-          label="Rating To"
-          placeholder="To"
-          onChange={(value) => handleRatingChange(minRating, String(value))}
-        />
+        <Flex
+          direction="row"
+          gap="10px"
+          className={`${styles.ratingContainer} ${styles.filterItem}`}
+        >
+          <NumberInput
+            max={10}
+            min={0}
+            step={1}
+            allowNegative={false}
+            decimalScale={1}
+            size="md"
+            radius="md"
+            label="Rating From"
+            placeholder="From"
+            value={minRating}
+            onChange={(value) => handleRatingChange(String(value), maxRating)}
+            className={styles.ratingInput}
+          />
+          <NumberInput
+            max={10}
+            min={0}
+            step={1}
+            size="md"
+            radius="md"
+            label="Rating To"
+            placeholder="To"
+            value={maxRating}
+            onChange={(value) => handleRatingChange(minRating, String(value))}
+            className={styles.ratingInput}
+          />
+        </Flex>
         <div style={{ marginTop: "20px", fontWeight: 500 }}>
           <UnstyledButton style={{ color: "#7B7C88" }} onClick={resetFilters}>
             Reset filters
           </UnstyledButton>
         </div>
-      </div>
+      </Flex>
     </div>
   );
 }
