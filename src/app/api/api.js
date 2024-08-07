@@ -1,4 +1,4 @@
-import { apiKey, token, baseUrl } from "../config";
+import { apiKey, baseUrl } from "../config";
 
 export async function fetchMovies(
   genre = "",

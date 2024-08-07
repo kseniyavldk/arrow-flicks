@@ -39,7 +39,6 @@ const RatingModal: React.FC<RatingModalProps> = ({
     localStorage.removeItem(`movie_${movie.id}_rating`);
     setUserRating(0);
     onUpdateRating(0);
-
     close();
   };
 

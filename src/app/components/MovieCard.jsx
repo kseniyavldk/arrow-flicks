@@ -10,11 +10,13 @@ import { useDisclosure } from "@mantine/hooks";
 function MovieCard({ movie, rating, genres }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [userRating, setUserRating] = useState(rating);
+  const [availableGenres, setAvailableGenres] = useState([]);
 
   useEffect(() => {
     async function fetchGenres() {
       try {
         const genresData = await fetchMovieGenres();
+        setAvailableGenres(genresData);
       } catch (error) {
         console.error("Error fetching movie genres:", error);
       }
@@ -25,8 +27,8 @@ function MovieCard({ movie, rating, genres }) {
 
   const getGenreNames = (movie) => {
     if (
-      !genres ||
-      !genres.length ||
+      !availableGenres ||
+      !availableGenres.length ||
       !movie.genre_ids ||
       !Array.isArray(movie.genre_ids)
     ) {
@@ -34,7 +36,7 @@ function MovieCard({ movie, rating, genres }) {
     }
 
     const genreNames = movie.genre_ids.map((id) => {
-      const genre = genres.find((genre) => genre.id === String(id));
+      const genre = availableGenres.find((genre) => genre.id === String(id));
       return genre ? genre.name : "";
     });
 
@@ -55,20 +57,6 @@ function MovieCard({ movie, rating, genres }) {
         onUpdateRating={onUpdateRating}
       />
 
-      <div className={styles.starAndRatingContainer}>
-        <Button
-          variant="transparent"
-          className={styles.starContainer}
-          border="none"
-          onClick={open}
-        >
-          <StarImage alt="Star img" rated={rating > 0} />
-          <Text size="lg" ml="5px" fw={700} c="black">
-            {rating}
-          </Text>
-        </Button>
-      </div>
-
       <div className={styles.movieContent}>
         <div className={styles.imageContainer}>
           <Image
@@ -78,34 +66,38 @@ function MovieCard({ movie, rating, genres }) {
           />
         </div>
         <div className={styles.textContainer}>
-          <Group direction="column" gap="xs">
-            <Link
-              href={`/movies/${movie.id}`}
-              style={{ textDecoration: "none" }}
-              passHref
-            >
-              <Text
-                as="a"
-                size="lg"
-                weight={700}
-                style={{
-                  fontSize: "20px",
-                  fontWeight: 600,
-                  color: "#9854F6",
-                  cursor: "pointer",
-                  marginBottom: "5px",
-                }}
+          <div className={styles.headerContainer}>
+            <div className={styles.titleContainer}>
+              <Link
+                href={`/movies/${movie.id}`}
+                passHref
+                style={{ textDecoration: "none" }}
               >
-                {movie.title}
-              </Text>
-            </Link>
-          </Group>
-          <Group>
-            <Text size="md" style={{ color: "#7B7C88" }}>
-              {movie.release_date && movie.release_date.split("-")[0]}
-            </Text>
-          </Group>
-          <Group style={{ marginBottom: "60px" }}>
+                <Text
+                  as="a"
+                  size="lg"
+                  weight={700}
+                  className={styles.titleText}
+                >
+                  {movie.title}
+                </Text>
+              </Link>
+              <Group>
+                <Text size="md" style={{ color: "#7B7C88" }}>
+                  {movie.release_date && movie.release_date.split("-")[0]}
+                </Text>
+              </Group>
+            </div>
+            <div className={styles.starAndRatingContainer}>
+              <Button variant="transparent" onClick={open}>
+                <StarImage alt="Star img" rated={userRating > 0} />
+                <Text size="lg" ml="5px" fw={700} c="black">
+                  {userRating}
+                </Text>
+              </Button>
+            </div>
+          </div>
+          <Group className={styles.ratingContainer}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -121,7 +113,7 @@ function MovieCard({ movie, rating, genres }) {
               {movie.vote_average ? movie.vote_average.toFixed(1) : "N/A"}
             </Text>
             <Text size="md" style={{ color: "#7B7C88" }}>
-              {movie.vote_count}
+              ({movie.vote_count})
             </Text>
           </Group>
           <Group>

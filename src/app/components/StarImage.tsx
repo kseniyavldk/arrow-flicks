@@ -1,5 +1,6 @@
 import React from "react";
 import { Image } from "@mantine/core";
+import styles from "./StarImage.module.css";
 
 interface StarProps {
   alt: string;
@@ -13,7 +14,7 @@ const StarImage: React.FC<StarProps> = ({ alt, rated }) => {
 
   return (
     <div>
-      <Image src={starImageSrc} alt={alt} />
+      <Image src={starImageSrc} alt={alt} className={styles.starImage} />
     </div>
   );
 };
