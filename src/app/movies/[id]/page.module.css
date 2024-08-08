@@ -28,10 +28,16 @@
 .movieContent {
     display: flex;
     align-items: center;
+    flex-direction: column;
+    /* Adjust to column for mobile */
 }
 
 .textContainer {
     margin-left: 20px;
+    margin-top: 15px;
+    /* Add spacing for mobile view */
+    text-align: center;
+    /* Center text for better readability on small screens */
 }
 
 .columnContainer {
@@ -50,4 +56,44 @@
     margin: 0;
     color: #7B7C88;
     text-align: left;
+}
+
+/* Add responsive styles */
+@media (max-width: 768px) {
+    .movieContent {
+        flex-direction: column;
+        /* Stack content vertically */
+    }
+
+    .textContainer {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .columnContainer {
+        margin-top: 20px;
+    }
+
+    .columnPair {
+        flex-direction: column;
+        /* Stack column pairs for better readability */
+        align-items: flex-start;
+        margin-bottom: 10px;
+    }
+
+    .cardBackground {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .cardBackground {
+        max-width: 100%;
+        /* Allow full width for smaller screens */
+        padding: 10px;
+    }
+
+    .textContainer {
+        margin-left: 0;
+    }
 }

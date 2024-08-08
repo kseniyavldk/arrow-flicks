@@ -115,16 +115,27 @@ function MovieCard({ params }: MovieDetailsProps) {
         </Button>
       </Box>
 
-      <Group align="flex-start" wrap="nowrap" gap="xlg">
-        <Box>
+      <Group
+        align="flex-start"
+        wrap="wrap"
+        gap="xl"
+        style={{ overflow: "hidden" }}
+      >
+        <Box className={styles.imageContainer}>
           <Image
             src={`https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`}
-            height={280}
             alt={movieDetails.title}
+            radius="md"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
           />
         </Box>
-        <Box>
-          <Text size="lg" c="#9854F6" fw={600}>
+        <Box className={styles.infoContainer}>
+          <Text size="xl" c="#9854F6" fw={600}>
             {movieDetails.title}
           </Text>
 

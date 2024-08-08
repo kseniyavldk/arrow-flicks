@@ -45,11 +45,12 @@
     word-break: break-all;
 }
 
-
 .ratingContainer {
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-top: 0;
+    padding-left: 0;
 }
 
 .ratingContainer svg {

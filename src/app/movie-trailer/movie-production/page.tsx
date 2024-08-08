@@ -25,16 +25,16 @@ function MovieProduction({ src, title }: MovieProductionProps) {
         <Image
           component={NextImage}
           sizes="100%"
-          src={src}
-          alt="logo"
+          src={src || placeholder.src}
+          alt={title}
           fit="contain"
           fill
           priority
-          fallbackSrc={placeholder.src}
+          style={{ objectFit: "contain" }}
         />
       </Box>
 
-      <Title fz="sm" fw="700" lh="xs">
+      <Title fz="sm" fw="700" lh="xs" ta={{ base: "center", sm: "left" }}>
         {title}
       </Title>
     </Group>
