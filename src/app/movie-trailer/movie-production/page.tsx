@@ -1,36 +1,37 @@
 "use client";
-import React from "react";
-import NextImage from "next/image";
-import { Title, Image, Group, Box, rem } from "@mantine/core";
+import React, { useState } from "react";
+import { Title, Group, Box, rem, Image } from "@mantine/core";
 import placeholder from "/public/images/movie-frame.png";
 
 type MovieProductionProps = {
-  src: string;
+  src: string | null;
   title: string;
 };
 
 function MovieProduction({ src, title }: MovieProductionProps) {
+  const [imageSrc, setImageSrc] = useState<string>(src || placeholder.src);
+
+  const handleError = () => {
+    setImageSrc(placeholder.src);
+  };
+
   return (
-    <Group gap="md">
+    <Group gap="md" align="center">
       <Box
         pos="relative"
-        miw={rem(40)}
-        mih={rem(40)}
         style={{
+          width: rem(40),
+          height: rem(40),
           borderRadius: "50%",
           overflow: "hidden",
           border: "0.5px solid var(--mantine-color-gray-0)",
         }}
       >
         <Image
-          component={NextImage}
-          sizes="100%"
-          src={src || placeholder.src}
+          src={imageSrc}
           alt={title}
-          fit="contain"
-          fill
-          priority
-          style={{ objectFit: "contain" }}
+          onError={handleError}
+          style={{ objectFit: "contain", width: "100%", height: "100%" }}
         />
       </Box>
 

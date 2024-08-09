@@ -1,4 +1,5 @@
 import { apiKey, baseUrl } from "../config";
+import { API_ROUTES } from "../config";
 
 export async function fetchMovies(
   genre = "",
@@ -137,18 +138,30 @@ export async function fetchMovieSortOptions() {
   }
 }
 
-export async function fetchMovieDetails(movieId) {
+export const fetchMovieDetails = async (movieId) => {
   try {
     const response = await fetch(
-      `${baseUrl}/movie/${movieId}?api_key=${apiKey}&language=en-US&append_to_response=videos`
+      `${API_ROUTES.MOVIE}/${movieId}?api_key=${apiKey}&language=en-US&append_to_response=videos`
     );
     if (!response.ok) {
       throw new Error(`Failed to fetch movie details: ${response.statusText}`);
     }
     const data = await response.json();
-    return data;
+
+    const productionCompanies = data.production_companies.map((company) => ({
+      id: company.id,
+      name: company.name,
+      logo_path: company.logo_path
+        ? `${API_ROUTES.LOGOS}/${company.logo_path}`
+        : null,
+    }));
+
+    return {
+      ...data,
+      production_companies: productionCompanies,
+    };
   } catch (error) {
     console.error(`Error fetching movie details: ${error.message}`);
     throw new Error(`Error fetching movie details: ${error.message}`);
   }
-}
+};
