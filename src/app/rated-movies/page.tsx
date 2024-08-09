@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Container, rem, SimpleGrid, Flex, Pagination } from "@mantine/core";
-import MovieCard from "../components/MovieCard";
-import NoRatedMovies from "../components/NoRatedMovies";
-import EmptyResult from "../components/EmptyResult";
-import Header from "../components/HeaderRatedMovies";
+import MovieCard from "../components/MovieCard/MovieCard";
+import NoRatedMovies from "./NoRatedMovies";
+import EmptyResult from "./EmptyResult";
+import Header from "./HeaderRatedMovies";
 import { fetchMovieDetails, fetchMovieGenres } from "@/app/api/api";
 
 interface RatedMovie {

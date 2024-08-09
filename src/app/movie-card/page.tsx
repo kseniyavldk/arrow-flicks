@@ -14,9 +14,9 @@ import {
 import { fetchMovieDetails, fetchMovieGenres } from "@/app/api/api.js";
 import { token } from "@/app/config.js";
 import { Movie, Genre, Video } from "@/app/types";
-import StarImage from "../components/StarImage";
+import StarImage from "../components/StarImage/StarImage";
 import { useDisclosure } from "@mantine/hooks";
-import RatingModal from "../components/RatingPopup";
+import RatingModal from "../components/RatingPopup/RatingPopup";
 
 import styles from "./page.module.css";
 import { CompanyMovieProduction } from "@/app/types";

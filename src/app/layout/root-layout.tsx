@@ -1,4 +1,4 @@
-import NavBar from "@/app/components/NavBar";
+import NavBar from "@/app/components/NavBar/NavBar";
 import { Flex } from "@mantine/core";
 import { PropsWithChildren } from "react";
 

@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 import { fetchMovieGenres, fetchMoviesYears } from "@/app/api/api.js";
-import { Genre } from "../types";
+import { Genre } from "../../types";
 import styles from "./movieFilters.module.css";
 
 function MovieFilters({

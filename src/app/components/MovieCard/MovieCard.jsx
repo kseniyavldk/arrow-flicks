@@ -3,8 +3,8 @@ import { Card, Image, Text, Group, Button } from "@mantine/core";
 import styles from "./MovieCard.module.css";
 import { fetchMovieGenres } from "/src/app/api/api.js";
 import Link from "next/link";
-import StarImage from "./StarImage";
-import RatingModal from "./RatingPopup";
+import StarImage from "../StarImage/StarImage";
+import RatingModal from "../RatingPopup/RatingPopup";
 import { useDisclosure } from "@mantine/hooks";
 
 function MovieCard({ movie, rating, genres }) {
@@ -108,9 +108,11 @@ function MovieCard({ movie, rating, genres }) {
             <div className={styles.starAndRatingContainer}>
               <Button variant="transparent" onClick={open}>
                 <StarImage alt="Star img" rated={userRating > 0} />
-                <Text size="lg" ml="5px" fw={700} c="black">
-                  {userRating}
-                </Text>
+                {userRating > 0 && (
+                  <Text size="lg" ml="5px" fw={700} c="black">
+                    {userRating}
+                  </Text>
+                )}
               </Button>
             </div>
           </div>

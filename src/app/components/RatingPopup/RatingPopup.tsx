@@ -9,7 +9,7 @@ import {
   ActionIcon,
 } from "@mantine/core";
 import { IconX } from "@tabler/icons-react";
-import { Movie } from "../types";
+import { Movie } from "../../types";
 
 interface RatingModalProps {
   opened: boolean;

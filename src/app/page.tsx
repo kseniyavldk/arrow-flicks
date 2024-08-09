@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { SimpleGrid, Flex, Pagination } from "@mantine/core";
 import { useMovies } from "@/app/api/tmdb";
-import MovieFilters from "./components/MovieFilters";
-import MovieCard from "./components/MovieCard";
-import MovieSort from "./components/MovieSort";
+import MovieFilters from "./components/MovieFilters/MovieFilters";
+import MovieCard from "./components/MovieCard/MovieCard";
+import MovieSort from "./components/MovieSort/MovieSort";
 import { Movie, SearchParams } from "../app/types";
 import { fetchMovieGenres } from "@/app/api/api.js";
 import styles from "./page.module.css";
