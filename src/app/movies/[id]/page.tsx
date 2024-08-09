@@ -21,6 +21,7 @@ function MovieDetails({ params }: MovieDetailsProps) {
   const [productionData, setProductionData] = useState<
     CompanyMovieProduction[]
   >([]);
+  const [breadcrumbsTitle, setBreadcrumbsTitle] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -37,6 +38,7 @@ function MovieDetails({ params }: MovieDetailsProps) {
               setTrailer(trailerData);
             }
           }
+          setBreadcrumbsTitle(movieData.title);
         }
         const genresData = await fetchMovieGenres();
         setGenres(genresData);
@@ -65,6 +67,7 @@ function MovieDetails({ params }: MovieDetailsProps) {
       <Stack gap="xl">
         <Breadcrumbs c="#9854F6" separatorMargin="md" mt="xs">
           Movies
+          {`${breadcrumbsTitle}`}
         </Breadcrumbs>
         <MovieCard params={params} />
 
