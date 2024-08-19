@@ -9,6 +9,7 @@ import { fetchMovieDetails, fetchMovieGenres } from "@/app/api/api";
 
 interface RatedMovie {
   id: string;
+  name: string;
   rating: number;
   title: string;
 }
@@ -19,7 +20,8 @@ const RatedMovies = () => {
   const [searchEmpty, setSearchEmpty] = useState(false);
   const [genres, setGenres] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const moviesPerPage = 4;
+  const [loading, setLoading] = useState(true);
+  const moviesPerPage = 8;
   const [totalPages, setTotalPages] = useState<number>(1);
 
   useEffect(() => {
@@ -31,12 +33,19 @@ const RatedMovies = () => {
           const movieId = key.split("_")[1];
           const movieRating = localStorage.getItem(key);
           const rating = movieRating ? parseInt(movieRating) : 0;
+
           const movieDetails = await fetchMovieDetails(movieId);
-          ratedMovies.push({ ...movieDetails, rating });
+
+          const genre_ids = movieDetails.genres
+            ? movieDetails.genres.map((genre: RatedMovie) => genre.id)
+            : [];
+
+          ratedMovies.push({ ...movieDetails, rating, genre_ids });
         }
       }
       setRatedMovies(ratedMovies);
       setFilteredMovies(ratedMovies);
+      setLoading(false);
     };
 
     const fetchGenresData = async () => {
@@ -80,12 +89,18 @@ const RatedMovies = () => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
+  if (loading) {
+    return null;
+  }
+
   return (
     <Container my={rem(40)} px="xmd" size={rem(1000)}>
       <Header onSearch={handleSearch} />
 
       {searchEmpty ? (
         <EmptyResult />
+      ) : currentMovies.length === 0 ? (
+        <NoRatedMovies />
       ) : (
         <>
           {currentMovies.length === 0 && <NoRatedMovies />}

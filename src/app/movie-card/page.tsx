@@ -17,7 +17,6 @@ import { Movie, Genre, Video } from "@/app/types";
 import StarImage from "../components/StarImage/StarImage";
 import { useDisclosure } from "@mantine/hooks";
 import RatingModal from "../components/RatingPopup/RatingPopup";
-
 import styles from "./page.module.css";
 import { CompanyMovieProduction } from "@/app/types";
 
@@ -33,7 +32,7 @@ function MovieCard({ params }: MovieDetailsProps) {
     CompanyMovieProduction[]
   >([]);
   const [opened, { open, close }] = useDisclosure(false);
-  const [userRating, setUserRating] = useState<number>(0);
+  const [userRating, setUserRating] = useState<number | null>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -57,6 +56,8 @@ function MovieCard({ params }: MovieDetailsProps) {
         const storedRating = localStorage.getItem(`movie_${params.id}_rating`);
         if (storedRating) {
           setUserRating(parseInt(storedRating));
+        } else {
+          setUserRating(null);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -108,10 +109,12 @@ function MovieCard({ params }: MovieDetailsProps) {
           className={styles.starContainer}
           onClick={open}
         >
-          <StarImage alt="Star img" rated={userRating > 0} />
-          <Text size="lg" ml="5px" fw={700} c="black">
-            {userRating}
-          </Text>
+          <StarImage alt="Star img" rated={userRating !== null} />
+          {userRating !== null && (
+            <Text size="lg" ml="5px" fw={700} c="black">
+              {userRating}
+            </Text>
+          )}
         </Button>
       </Box>
 

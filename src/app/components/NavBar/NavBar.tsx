@@ -13,18 +13,8 @@ const NavBar = () => {
   const hrefRated = pathname === "/rated-movies";
 
   return (
-    <Flex
-      gap={80}
-      miw={280}
-      bg={"#F2EBF9"}
-      justify="flex-start"
-      align="flex-start"
-      direction="column"
-      p={24}
-      m={0}
-      className={styles.navbar}
-    >
-      <Group display={"flex"} gap={12} align="center" className={styles.header}>
+    <Flex className={styles.navbar} direction="column" p={24} m={0}>
+      <Group className={styles.header}>
         <Image src="logo.png" alt="Logo" className={styles.logo} />
         <Burger
           opened={opened}
@@ -35,6 +25,7 @@ const NavBar = () => {
       <Flex
         direction={"column"}
         w="100%"
+        pt={40}
         gap={10}
         className={opened ? styles.navLinksOpened : styles.navLinksClosed}
       >

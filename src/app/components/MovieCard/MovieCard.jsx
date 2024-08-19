@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Card, Image, Text, Group, Button } from "@mantine/core";
 import styles from "./MovieCard.module.css";
-import { fetchMovieGenres } from "/src/app/api/api.js";
 import Link from "next/link";
 import StarImage from "../StarImage/StarImage";
 import RatingModal from "../RatingPopup/RatingPopup";
@@ -10,41 +9,28 @@ import { useDisclosure } from "@mantine/hooks";
 function MovieCard({ movie, rating, genres }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [userRating, setUserRating] = useState(rating);
-  const [availableGenres, setAvailableGenres] = useState([]);
-
-  useEffect(() => {
-    async function fetchGenres() {
-      try {
-        const genresData = await fetchMovieGenres();
-        setAvailableGenres(genresData);
-      } catch (error) {
-        console.error("Error fetching movie genres:", error);
-      }
-    }
-
-    fetchGenres();
-  }, []);
-
-  const getGenreNames = (movie) => {
-    if (
-      !availableGenres ||
-      !availableGenres.length ||
-      !movie.genre_ids ||
-      !Array.isArray(movie.genre_ids)
-    ) {
-      return "";
-    }
-
-    const genreNames = movie.genre_ids.map((id) => {
-      const genre = availableGenres.find((genre) => genre.id === String(id));
-      return genre ? genre.name : "";
-    });
-
-    return genreNames.join(", ");
-  };
 
   const onUpdateRating = (newRating) => {
     setUserRating(newRating);
+    localStorage.setItem(`movie_${movie.id}_rating`, newRating);
+  };
+
+  const getGenreNames = (movie) => {
+    if (
+      !genres ||
+      !genres.length ||
+      !movie.genre_ids ||
+      !Array.isArray(movie.genre_ids)
+    ) {
+      return "Unknown";
+    }
+
+    const genreNames = movie.genre_ids.map((id) => {
+      const genre = genres.find((genre) => genre.id == id);
+      return genre ? genre.name : "Unknown";
+    });
+
+    return genreNames.join(", ");
   };
 
   return (

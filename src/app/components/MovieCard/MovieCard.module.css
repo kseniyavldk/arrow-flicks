@@ -15,6 +15,7 @@
     flex-direction: column;
     justify-content: space-between;
     flex-grow: 1;
+    padding-right: 60px;
 }
 
 .genreText {
@@ -24,17 +25,17 @@
 
 .headerContainer {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: flex-start;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .titleContainer {
-    flex: 1;
-    margin-right: 16px;
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
+    width: calc(100% - 60px);
 }
 
 .titleText {
@@ -42,7 +43,9 @@
     font-weight: 600;
     color: #9854F6;
     cursor: pointer;
-    word-break: break-all;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    margin-right: 60px;
 }
 
 .ratingContainer {
@@ -73,5 +76,9 @@
     .imageContainer {
         margin-bottom: 0;
         margin-right: 16px;
+    }
+
+    .titleContainer {
+        width: auto;
     }
 }
