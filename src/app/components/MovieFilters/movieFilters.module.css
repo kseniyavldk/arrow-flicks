@@ -2,6 +2,11 @@
     width: 100%;
 }
 
+.filtersWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
 .filterItem {
     flex: 1;
     min-width: 200px;
@@ -20,21 +25,28 @@
 
 @media (max-width: 768px) {
     .filtersContainer {
-        flex-direction: column;
-        align-items: stretch;
+        display: none;
     }
 
-    .filterItem {
-        width: 100%;
+    .filtersVisible {
+        display: block;
+    }
+
+    .filtersHidden {
+        display: none;
+    }
+
+    .mobileFilterButton {
+        display: block;
+    }
+
+    .showFiltersButton {
         margin-bottom: 20px;
     }
+}
 
-    .ratingContainer {
-        flex-direction: row;
-        gap: 10px;
-    }
-
-    .ratingInput {
-        width: 100%;
+@media (min-width: 769px) {
+    .mobileFilterButton {
+        display: none;
     }
 }

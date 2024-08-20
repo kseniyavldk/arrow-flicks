@@ -5,10 +5,10 @@ import {
   UnstyledButton,
   Text,
   NumberInput,
-  rem,
   Flex,
+  Button,
 } from "@mantine/core";
-import { IconChevronDown } from "@tabler/icons-react";
+import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
 import { fetchMovieGenres, fetchMoviesYears } from "@/app/api/api.js";
 import { Genre } from "../../types";
 import styles from "./movieFilters.module.css";
@@ -28,6 +28,7 @@ function MovieFilters({
   const [maxRating, setMaxRating] = useState<string>("");
   const [selectedGenre, setSelectedGenre] = useState<string>("");
   const [selectedYear, setSelectedYear] = useState<string>("");
+  const [filtersVisible, setFiltersVisible] = useState<boolean>(false);
 
   useEffect(() => {
     fetchMovieGenres()
@@ -76,6 +77,10 @@ function MovieFilters({
     onRatingChange("", "");
   };
 
+  const toggleFiltersVisibility = () => {
+    setFiltersVisible(!filtersVisible);
+  };
+
   return (
     <div>
       <div style={{ textAlign: "center", marginBottom: "20px" }}>
@@ -90,78 +95,106 @@ function MovieFilters({
           Movies
         </Text>
       </div>
-      <Flex
-        direction={{ base: "column", sm: "row" }}
-        justify="flex-start"
-        align="center"
-        gap="20px"
-        wrap="wrap"
-        className={styles.filtersContainer}
-      >
-        <Select
-          rightSection={
-            <IconChevronDown style={{ width: "1rem", height: "1rem" }} />
-          }
+
+      {/* Mobile Show/Hide Button */}
+      <div className={styles.mobileFilterButton}>
+        <Button
+          variant="default"
           size="md"
           radius="md"
-          label="Genres"
-          placeholder="Select genre"
-          data={genres.map((genre) => ({ value: genre.id, label: genre.name }))}
-          value={selectedGenre}
-          onChange={handleGenreChange}
-          className={styles.filterItem}
-        />
-        <Select
-          rightSection={
-            <IconChevronDown style={{ width: "1rem", height: "1rem" }} />
-          }
-          size="md"
-          radius="md"
-          label="Release year"
-          placeholder="Select release year"
-          data={releaseYears}
-          value={selectedYear}
-          onChange={handleYearChange}
-          className={styles.filterItem}
-        />
-        <Flex
-          direction="row"
-          gap="10px"
-          className={`${styles.ratingContainer} ${styles.filterItem}`}
+          onClick={toggleFiltersVisibility}
+          className={styles.showFiltersButton}
         >
-          <NumberInput
-            max={10}
-            min={0}
-            step={1}
-            allowNegative={false}
-            decimalScale={1}
+          {filtersVisible ? "Hide Filters" : "Show Filters"}
+          {filtersVisible ? (
+            <IconChevronUp style={{ width: "1rem", height: "1rem" }} />
+          ) : (
+            <IconChevronDown style={{ width: "1rem", height: "1rem" }} />
+          )}
+        </Button>
+      </div>
+
+      {/* Filters Container */}
+      <div
+        className={`${styles.filtersContainer} ${
+          filtersVisible ? styles.filtersVisible : styles.filtersHidden
+        }`}
+      >
+        <Flex
+          direction={{ base: "column", sm: "row" }}
+          justify="flex-start"
+          gap="20px"
+          wrap="wrap"
+          className={styles.filtersWrapper}
+        >
+          <Select
+            rightSection={
+              <IconChevronDown style={{ width: "1rem", height: "1rem" }} />
+            }
             size="md"
             radius="md"
-            label="Rating From"
-            placeholder="From"
-            value={minRating}
-            onChange={(value) => handleRatingChange(String(value), maxRating)}
-            className={styles.ratingInput}
+            label="Genres"
+            placeholder="Select genre"
+            data={genres.map((genre) => ({
+              value: genre.id,
+              label: genre.name,
+            }))}
+            value={selectedGenre}
+            onChange={handleGenreChange}
+            className={styles.filterItem}
           />
-          <NumberInput
-            max={10}
-            min={0}
-            step={1}
+          <Select
+            rightSection={
+              <IconChevronDown style={{ width: "1rem", height: "1rem" }} />
+            }
             size="md"
             radius="md"
-            label="Rating To"
-            placeholder="To"
-            value={maxRating}
-            onChange={(value) => handleRatingChange(minRating, String(value))}
-            className={styles.ratingInput}
+            label="Release year"
+            placeholder="Select release year"
+            data={releaseYears}
+            value={selectedYear}
+            onChange={handleYearChange}
+            className={styles.filterItem}
           />
+          <Flex
+            direction="row"
+            gap="10px"
+            className={`${styles.ratingContainer} ${styles.filterItem}`}
+          >
+            <NumberInput
+              max={10}
+              min={0}
+              step={1}
+              allowNegative={false}
+              decimalScale={1}
+              size="md"
+              radius="md"
+              label="Rating From"
+              placeholder="From"
+              value={minRating}
+              onChange={(value) => handleRatingChange(String(value), maxRating)}
+              className={styles.ratingInput}
+            />
+            <NumberInput
+              max={10}
+              min={0}
+              step={1}
+              size="md"
+              radius="md"
+              label="Rating To"
+              placeholder="To"
+              value={maxRating}
+              onChange={(value) => handleRatingChange(minRating, String(value))}
+              className={styles.ratingInput}
+            />
+          </Flex>
+          <div style={{ marginTop: "20px", fontWeight: 500 }}>
+            <UnstyledButton style={{ color: "#7B7C88" }} onClick={resetFilters}>
+              Reset filters
+            </UnstyledButton>
+          </div>
         </Flex>
-        <div style={{ marginTop: "20px", fontWeight: 500 }}>
-          <UnstyledButton style={{ color: "#7B7C88" }} onClick={resetFilters}>
-            Reset filters
-          </UnstyledButton>
-        </div>
-      </Flex>
+      </div>
     </div>
   );
 }
