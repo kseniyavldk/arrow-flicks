@@ -13,6 +13,7 @@ export interface Movie {
   genres: Genre[];
   description: string;
   overview: string;
+  onDelete: () => void;
 }
 
 export interface Genre {

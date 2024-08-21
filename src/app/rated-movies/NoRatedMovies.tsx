@@ -2,8 +2,11 @@ import React from "react";
 import { Box, Text, Button } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
+import { useMediaQuery } from "@mantine/hooks";
 
 const NoRatedMovies = () => {
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
   return (
     <Box
       style={{
@@ -11,15 +14,20 @@ const NoRatedMovies = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        minHeight: "70vh",
+        minHeight: isMobile ? "0vh" : "70vh",
         textAlign: "center",
       }}
     >
-      <Image src="/images/loading.png" alt="Loading" width={500} height={400} />
+      <Image
+        src="/images/loading.png"
+        alt="Loading"
+        width={isMobile ? 300 : 500}
+        height={isMobile ? 240 : 400}
+      />
       <Text
         style={{
           marginTop: "20px",
-          fontSize: "20px",
+          fontSize: isMobile ? "16px" : "20px",
           fontWeight: 600,
         }}
       >

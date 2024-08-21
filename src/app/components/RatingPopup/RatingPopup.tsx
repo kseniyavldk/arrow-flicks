@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   Text,
@@ -16,32 +16,39 @@ interface RatingModalProps {
   close: () => void;
   movie: Movie;
   onUpdateRating: (rating: number) => void;
-  setUserRating: (rating: number) => void;
+  onDelete: () => void;
 }
 
 const RatingModal: React.FC<RatingModalProps> = ({
   opened,
   close,
   movie,
-  setUserRating,
   onUpdateRating,
+  onDelete,
 }) => {
-  const [rating, setRating] = React.useState(0);
+  const [rating, setRating] = useState<number>(0);
+
+  useEffect(() => {
+    if (opened) {
+      const storedRating = localStorage.getItem(`movie_${movie.id}_rating`);
+      setRating(storedRating ? Number(storedRating) : 0);
+    }
+  }, [opened, movie.id]);
 
   const handleSubmit = () => {
     localStorage.setItem(`movie_${movie.id}_rating`, rating.toString());
-    setUserRating(rating);
     onUpdateRating(rating);
     close();
   };
 
   const handleRemoveRating = () => {
     localStorage.removeItem(`movie_${movie.id}_rating`);
-    setUserRating(0);
     onUpdateRating(0);
+    if (onDelete) {
+      onDelete();
+    }
     close();
   };
-
   return (
     <Modal opened={opened} onClose={close} withCloseButton={false} centered>
       <Group justify="space-between">

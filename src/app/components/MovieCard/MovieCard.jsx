@@ -6,7 +6,7 @@ import StarImage from "../StarImage/StarImage";
 import RatingModal from "../RatingPopup/RatingPopup";
 import { useDisclosure } from "@mantine/hooks";
 
-function MovieCard({ movie, rating, genres }) {
+function MovieCard({ movie, rating, genres, onDelete }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [userRating, setUserRating] = useState(rating);
 
@@ -41,6 +41,7 @@ function MovieCard({ movie, rating, genres }) {
         movie={movie}
         setUserRating={setUserRating}
         onUpdateRating={onUpdateRating}
+        onDelete={onDelete}
       />
 
       <div className={styles.movieContent}>
