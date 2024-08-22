@@ -171,8 +171,10 @@ function MovieFilters({
               radius="md"
               label="Rating From"
               placeholder="From"
-              value={minRating}
-              onChange={(value) => handleRatingChange(String(value), maxRating)}
+              value={minRating ? parseFloat(minRating) : undefined}
+              onChange={(value) =>
+                handleRatingChange(value?.toString() || "", maxRating)
+              }
               className={styles.ratingInput}
             />
             <NumberInput
@@ -183,8 +185,10 @@ function MovieFilters({
               radius="md"
               label="Rating To"
               placeholder="To"
-              value={maxRating}
-              onChange={(value) => handleRatingChange(minRating, String(value))}
+              value={maxRating ? parseFloat(maxRating) : undefined}
+              onChange={(value) =>
+                handleRatingChange(minRating, value?.toString() || "")
+              }
               className={styles.ratingInput}
             />
           </Flex>
