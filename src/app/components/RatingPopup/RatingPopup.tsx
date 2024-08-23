@@ -15,14 +15,16 @@ interface RatingModalProps {
   opened: boolean;
   close: () => void;
   movie: Movie;
+  setUserRating: React.Dispatch<React.SetStateAction<number | null>>;
   onUpdateRating: (rating: number) => void;
-  onDelete: () => void;
+  onDelete?: () => void;
 }
 
 const RatingModal: React.FC<RatingModalProps> = ({
   opened,
   close,
   movie,
+  setUserRating,
   onUpdateRating,
   onDelete,
 }) => {
@@ -37,18 +39,21 @@ const RatingModal: React.FC<RatingModalProps> = ({
 
   const handleSubmit = () => {
     localStorage.setItem(`movie_${movie.id}_rating`, rating.toString());
+    setUserRating(rating);
     onUpdateRating(rating);
     close();
   };
 
   const handleRemoveRating = () => {
     localStorage.removeItem(`movie_${movie.id}_rating`);
+    setUserRating(null);
     onUpdateRating(0);
     if (onDelete) {
       onDelete();
     }
     close();
   };
+
   return (
     <Modal opened={opened} onClose={close} withCloseButton={false} centered>
       <Group justify="space-between">

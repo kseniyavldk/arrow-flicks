@@ -192,7 +192,7 @@ function MovieFilters({
               className={styles.ratingInput}
             />
           </Flex>
-          <div style={{ marginTop: "20px", fontWeight: 500 }}>
+          <div style={{ marginTop: "30px", fontWeight: 500 }}>
             <UnstyledButton style={{ color: "#7B7C88" }} onClick={resetFilters}>
               Reset filters
             </UnstyledButton>

@@ -14,30 +14,29 @@
     border-radius: 10px;
     width: 100%;
     max-width: 700px;
-    max-height: 200px;
+    max-height: auto;
     margin: 0 auto;
-}
-
-.starContainer {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 1;
+    box-sizing: border-box;
 }
 
 .movieContent {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: column;
-    /* Adjust to column for mobile */
+    margin-bottom: 20px;
+}
+
+.imageContainer {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 16px;
 }
 
 .textContainer {
     margin-left: 20px;
     margin-top: 15px;
-    /* Add spacing for mobile view */
     text-align: center;
-    /* Center text for better readability on small screens */
+    flex-shrink: 0;
 }
 
 .columnContainer {
@@ -58,15 +57,15 @@
     text-align: left;
 }
 
-/* Add responsive styles */
 @media (max-width: 768px) {
     .movieContent {
         flex-direction: column;
-        /* Stack content vertically */
+        align-items: center;
     }
 
     .textContainer {
         margin-left: 0;
+        margin-top: 10px;
         text-align: center;
     }
 
@@ -76,7 +75,6 @@
 
     .columnPair {
         flex-direction: column;
-        /* Stack column pairs for better readability */
         align-items: flex-start;
         margin-bottom: 10px;
     }
@@ -89,11 +87,16 @@
 @media (max-width: 576px) {
     .cardBackground {
         max-width: 100%;
-        /* Allow full width for smaller screens */
         padding: 10px;
     }
 
     .textContainer {
         margin-left: 0;
     }
+}
+
+.titleText {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
 }

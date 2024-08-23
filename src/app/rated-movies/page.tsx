@@ -5,15 +5,11 @@ import MovieCard from "../components/MovieCard/MovieCard";
 import NoRatedMovies from "./NoRatedMovies";
 import EmptyResult from "./EmptyResult";
 import Header from "./HeaderRatedMovies";
-import { Genre } from "@/app/types";
+import { Genre, Movie } from "@/app/types";
 import { fetchMovieDetails, fetchMovieGenres } from "@/app/api/api";
 
-interface RatedMovie {
-  id: string;
-  name: string;
+interface RatedMovie extends Movie {
   rating: number;
-  title: string;
-  genre_ids?: number[];
 }
 
 const RatedMovies = () => {
@@ -33,7 +29,7 @@ const RatedMovies = () => {
       if (key && key.startsWith("movie_")) {
         const movieId = key.split("_")[1];
         const movieRating = localStorage.getItem(key);
-        const rating = movieRating ? parseInt(movieRating) : 0;
+        const rating = movieRating ? parseFloat(movieRating) : 0;
 
         try {
           const movieDetails = await fetchMovieDetails(movieId);
@@ -87,8 +83,11 @@ const RatedMovies = () => {
   };
 
   const handleDeleteMovie = (movieId: string) => {
+    const movieIdAsNumber = parseInt(movieId, 10);
     localStorage.removeItem(`movie_${movieId}_rating`);
-    const updatedMovies = ratedMovies.filter((movie) => movie.id !== movieId);
+    const updatedMovies = ratedMovies.filter(
+      (movie) => movie.id !== movieIdAsNumber
+    );
     setRatedMovies(updatedMovies);
     setFilteredMovies(updatedMovies);
   };
@@ -127,9 +126,13 @@ const RatedMovies = () => {
               <MovieCard
                 key={movie.id}
                 movie={movie}
-                rating={localStorage.getItem(`movie_${movie.id}_rating`)}
+                rating={
+                  parseFloat(
+                    localStorage.getItem(`movie_${movie.id}_rating`) || "0"
+                  ) || null
+                }
                 genres={genres}
-                onDelete={() => handleDeleteMovie(movie.id)}
+                onDelete={() => handleDeleteMovie(String(movie.id))}
               />
             ))}
           </SimpleGrid>

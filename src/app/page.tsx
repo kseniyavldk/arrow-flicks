@@ -5,7 +5,7 @@ import { useMovies } from "@/app/api/tmdb";
 import MovieFilters from "./components/MovieFilters/MovieFilters";
 import MovieCard from "./components/MovieCard/MovieCard";
 import MovieSort from "./components/MovieSort/MovieSort";
-import { Movie, SearchParams } from "../app/types";
+import { Movie, SearchParams, Genre } from "../app/types";
 import { fetchMovieGenres } from "@/app/api/api.js";
 import styles from "./page.module.css";
 
@@ -25,7 +25,7 @@ function Demo({ searchParams }: DemoProps) {
   const moviesPerPage = 12;
   const [currentMovies, setCurrentMovies] = useState<Movie[]>([]);
   const [totalPages, setTotalPages] = useState<number>(1);
-  const [genres, setGenres] = useState<string[]>([]);
+  const [genres, setGenres] = useState<Genre[]>([]);
 
   const movies: Movie[] = useMovies(genre, selectedYear, ratingFrom, ratingTo);
 
@@ -123,7 +123,11 @@ function Demo({ searchParams }: DemoProps) {
           <MovieCard
             key={movie.id}
             movie={movie}
-            rating={localStorage.getItem(`movie_${movie.id}_rating`)}
+            rating={
+              parseFloat(
+                localStorage.getItem(`movie_${movie.id}_rating`) || "0"
+              ) || null
+            }
             genres={genres}
           />
         ))}

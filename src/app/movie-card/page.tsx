@@ -1,5 +1,4 @@
 "use client";
-import { notFound } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import {
   Paper,
@@ -55,7 +54,7 @@ function MovieCard({ params }: MovieDetailsProps) {
 
         const storedRating = localStorage.getItem(`movie_${params.id}_rating`);
         if (storedRating) {
-          setUserRating(parseInt(storedRating));
+          setUserRating(parseInt(storedRating, 10));
         } else {
           setUserRating(null);
         }
@@ -85,6 +84,7 @@ function MovieCard({ params }: MovieDetailsProps) {
 
   const onUpdateRating = (newRating: number) => {
     setUserRating(newRating);
+    localStorage.setItem(`movie_${params.id}_rating`, newRating.toString());
   };
 
   if (!movieDetails) {
@@ -93,10 +93,6 @@ function MovieCard({ params }: MovieDetailsProps) {
         <Loader color="grape" />
       </div>
     );
-  }
-
-  if (!movieDetails) {
-    notFound();
   }
 
   return (
@@ -131,7 +127,7 @@ function MovieCard({ params }: MovieDetailsProps) {
             radius="md"
             style={{
               width: "100%",
-              height: "100%",
+              height: "auto",
               objectFit: "cover",
               objectPosition: "center",
             }}
@@ -154,7 +150,6 @@ function MovieCard({ params }: MovieDetailsProps) {
               height="24"
               viewBox="0 0 24 24"
               fill="#FAB005"
-              className="icon icon-tabler icons-tabler-filled icon-tabler-star"
               style={{ marginRight: "8px" }}
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />

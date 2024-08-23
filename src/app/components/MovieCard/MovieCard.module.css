@@ -23,6 +23,7 @@
 .genreText {
     max-width: 100%;
     overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .headerContainer {
@@ -45,8 +46,9 @@
     font-weight: 600;
     color: #9854F6;
     cursor: pointer;
-    word-break: break-word;
+    word-wrap: break-word;
     overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .ratingContainer {
@@ -88,7 +90,6 @@
         border-radius: 8px;
     }
 }
-
 
 @media (min-width: 700px) and (max-width: 1000px) {
     .movieContent {

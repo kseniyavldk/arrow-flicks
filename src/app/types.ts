@@ -13,7 +13,7 @@ export interface Movie {
   genres: Genre[];
   description: string;
   overview: string;
-  onDelete: () => void;
+  production_companies: CompanyMovieProduction[];
 }
 
 export interface Genre {

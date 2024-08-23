@@ -5,17 +5,30 @@ import Link from "next/link";
 import StarImage from "../StarImage/StarImage";
 import RatingModal from "../RatingPopup/RatingPopup";
 import { useDisclosure } from "@mantine/hooks";
+import { Movie, Genre } from "@/app/types";
 
-function MovieCard({ movie, rating, genres, onDelete }) {
+interface MovieCardProps {
+  movie: Movie;
+  rating: number | null;
+  genres: Genre[];
+  onDelete?: () => void;
+}
+
+const MovieCard: React.FC<MovieCardProps> = ({
+  movie,
+  rating,
+  genres,
+  onDelete,
+}) => {
   const [opened, { open, close }] = useDisclosure(false);
-  const [userRating, setUserRating] = useState(rating);
+  const [userRating, setUserRating] = useState<number | null>(rating);
 
-  const onUpdateRating = (newRating) => {
+  const onUpdateRating = (newRating: number) => {
     setUserRating(newRating);
-    localStorage.setItem(`movie_${movie.id}_rating`, newRating);
+    localStorage.setItem(`movie_${movie.id}_rating`, newRating.toString());
   };
 
-  const getGenreNames = (movie) => {
+  const getGenreNames = (movie: Movie) => {
     if (
       !genres ||
       !genres.length ||
@@ -26,7 +39,7 @@ function MovieCard({ movie, rating, genres, onDelete }) {
     }
 
     const genreNames = movie.genre_ids.map((id) => {
-      const genre = genres.find((genre) => genre.id == id);
+      const genre = genres.find((genre) => genre.id === id.toString());
       return genre ? genre.name : "Unknown";
     });
 
@@ -41,7 +54,7 @@ function MovieCard({ movie, rating, genres, onDelete }) {
         movie={movie}
         setUserRating={setUserRating}
         onUpdateRating={onUpdateRating}
-        onDelete={onDelete}
+        onDelete={onDelete || (() => {})}
       />
 
       <div className={styles.movieContent}>
@@ -60,12 +73,7 @@ function MovieCard({ movie, rating, genres, onDelete }) {
                 passHref
                 style={{ textDecoration: "none" }}
               >
-                <Text
-                  as="a"
-                  size="lg"
-                  weight={700}
-                  className={styles.titleText}
-                >
+                <Text size="lg" className={styles.titleText}>
                   {movie.title}
                 </Text>
               </Link>
@@ -94,8 +102,11 @@ function MovieCard({ movie, rating, genres, onDelete }) {
             </div>
             <div className={styles.starAndRatingContainer}>
               <Button variant="transparent" onClick={open}>
-                <StarImage alt="Star img" rated={userRating > 0} />
-                {userRating > 0 && (
+                <StarImage
+                  alt="Star img"
+                  rated={userRating ? userRating > 0 : false}
+                />
+                {userRating && userRating > 0 && (
                   <Text size="lg" ml="5px" fw={700} c="black">
                     {userRating}
                   </Text>
@@ -107,6 +118,7 @@ function MovieCard({ movie, rating, genres, onDelete }) {
             <Text size="md" style={{ color: "#7B7C88" }}>
               Genres{" "}
               <span
+                className={styles.genreText}
                 style={{
                   fontSize: "16px",
                   fontWeight: 500,
@@ -120,6 +132,6 @@ function MovieCard({ movie, rating, genres, onDelete }) {
       </div>
     </Card>
   );
-}
+};
 
 export default MovieCard;
